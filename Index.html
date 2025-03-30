@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Artifact Armory</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Georgia, serif;
+      background-color: #f4f1ee;
+      color: #2e2e2e;
+    }
+    header {
+      background-color: #2e2e2e;
+      color: #f4f1ee;
+      padding: 1rem;
+      text-align: center;
+    }
+    nav {
+      background-color: #bfa76f;
+      display: flex;
+      justify-content: space-around;
+      padding: 0.5rem;
+      font-weight: bold;
+    }
+    nav a {
+      color: #2e2e2e;
+      text-decoration: none;
+    }
+    .hero {
+      background: url('hero-image.jpg') center/cover no-repeat;
+      padding: 4rem 1rem;
+      text-align: center;
+      color: white;
+    }
+    .hero h2 {
+      font-size: 1.8rem;
+    }
+    .products {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+      padding: 1rem;
+    }
+    .product {
+      background: white;
+      padding: 1rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    .product img {
+      width: 100%;
+      border-radius: 4px;
+    }
+    .product h3 {
+      margin: 0.5rem 0;
+    }
+    .product button {
+      padding: 0.5rem 1rem;
+      background-color: #bfa76f;
+      color: #2e2e2e;
+      border: none;
+      border-radius: 4px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    footer {
+      background-color: #2e2e2e;
+      color: white;
+      text-align: center;
+      padding: 1rem;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Artifact Armory</h1>
+    <p>Historically Scanned. Digitally Forged.</p>
+  </header>
+
+  <nav>
+    <a href="#products">STLs</a>
+    <a href="#about">About</a>
+    <a href="#contact">Contact</a>
+  </nav>
+
+  <section class="hero">
+    <h2>Download. Print. Deploy.</h2>
+    <p>Authentic 3D printable miniatures based on real historical kit.</p>
+  </section>
+
+  <section id="products" class="products">
+    <div class="product">
+      <img src="product1.jpg" alt="Miniature STL">
+      <h3>Private James Carter (K)</h3>
+      <p>£4.49 – STL File</p>
+      <button>Buy Now</button>
+    </div>
+    <div class="product">
+      <img src="product2.jpg" alt="Miniature STL">
+      <h3>Sergeant Doyle (S)</h3>
+      <p>£4.49 – STL File</p>
+      <button>Buy Now</button>
+    </div>
+  </section>
+
+  <section id="about" style="padding: 1rem; text-align: center;">
+    <h2>About Artifact Armory</h2>
+    <p>Our miniatures are built from high-resolution 3D scans of real uniforms and kit. Designed for painters, collectors, and historical wargamers who demand realism.</p>
+  </section>
+
+  <section id="contact" style="padding: 1rem; text-align: center;">
+    <h2>Contact</h2>
+    <p>Email: contact@artifactarmory.com</p>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Artifact Armory. All rights reserved.</p>
+  </footer>
+</body>
+</html>
