@@ -95,31 +95,36 @@
 
     <section class="filters">
       <label for="army">Army</label>
-      <select id="army">
-        <option>All</option>
-        <option>101st Airborne</option>
-        <option>British Paras</option>
+      <select id="army" onchange="filterProducts()">
+        <option value="all">All</option>
+        <option value="101st">101st Airborne</option>
+        <option value="paras">British Paras</option>
       </select>
 
       <label for="stance">Stance</label>
-      <select id="stance">
-        <option>All</option>
-        <option>Standing</option>
-        <option>Kneeling</option>
-        <option>Prone</option>
+      <select id="stance" onchange="filterProducts()">
+        <option value="all">All</option>
+        <option value="standing">Standing</option>
+        <option value="kneeling">Kneeling</option>
+        <option value="prone">Prone</option>
       </select>
     </section>
 
     <section id="products" class="products">
-      <!-- 30 product cards -->
-      <!-- Example product (repeat this block 30 times with different content as needed) -->
-      <div class="product">
+      <!-- Example product -->
+      <div class="product" data-army="101st" data-stance="kneeling">
         <img src="product1.jpg" alt="Miniature STL">
         <h3>Private James Carter (K)</h3>
         <p>£4.49 – STL File</p>
         <button>Buy Now</button>
       </div>
-      <!-- You can copy/paste and change image, name, and pose for the full 30 -->
+      <div class="product" data-army="paras" data-stance="standing">
+        <img src="product2.jpg" alt="Miniature STL">
+        <h3>Sergeant Doyle (S)</h3>
+        <p>£4.49 – STL File</p>
+        <button>Buy Now</button>
+      </div>
+      <!-- Duplicate and customise the block above to add more products -->
     </section>
 
     <section id="about" style="padding: 1rem; text-align: center;">
@@ -136,5 +141,24 @@
       <p>&copy; 2025 Artifact Armory. All rights reserved.</p>
     </footer>
   </main>
+
+  <script>
+    function filterProducts() {
+      const army = document.getElementById("army").value;
+      const stance = document.getElementById("stance").value;
+      const products = document.querySelectorAll(".product");
+
+      products.forEach(product => {
+        const matchesArmy = (army === "all" || product.dataset.army === army);
+        const matchesStance = (stance === "all" || product.dataset.stance === stance);
+
+        if (matchesArmy && matchesStance) {
+          product.style.display = "block";
+        } else {
+          product.style.display = "none";
+        }
+      });
+    }
+  </script>
 </body>
 </html>
