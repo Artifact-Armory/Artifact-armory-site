@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Your Cart – Artifact Armoury</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Georgia, serif;
+      background-color: #f4f1ee;
+      color: #2e2e2e;
+    }
+    header {
+      background-color: #2e2e2e;
+      color: #f4f1ee;
+      padding: 1rem;
+      text-align: center;
+    }
+    .container {
+      max-width: 800px;
+      margin: 2rem auto;
+      padding: 1rem;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    h2 {
+      margin-top: 0;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+    li {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid #ccc;
+    }
+    .summary {
+      margin-top: 1.5rem;
+      font-size: 1.1rem;
+    }
+    .summary p {
+      margin: 0.5rem 0;
+    }
+    .btn {
+      display: inline-block;
+      margin-top: 2rem;
+      padding: 0.75rem 1.5rem;
+      background-color: #bfa76f;
+      color: #2e2e2e;
+      font-weight: bold;
+      text-decoration: none;
+      border-radius: 4px;
+    }
+    .remove {
+      color: red;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Your Cart</h1>
+  </header>
+  <div class="container">
+    <ul id="cart-list"></ul>
+
+    <div class="summary">
+      <p>Subtotal: £<span id="subtotal">0.00</span></p>
+      <p>Discount: -£<span id="discount">0.00</span></p>
+      <p><strong>Total: £<span id="total">0.00</span></strong></p>
+    </div>
+
+    
+    <a class="btn" href="#" onclick="fakeCheckout()">Proceed to Checkout</a>
+    <p style="margin-top: 1rem; font-style: italic; font-size: 0.9rem;">(Note: Checkout is currently disabled until STL files launch in October.)</p>
+  </div>
+
+  <script>
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+    function renderCart() {
+      const cartList = document.getElementById("cart-list");
+      const subtotalEl = document.getElementById("subtotal");
+      const discountEl = document.getElementById("discount");
+      const totalEl = document.getElementById("total");
+
+      cartList.innerHTML = "";
+
+      let subtotal = 0;
+      cart.forEach((item, index) => {
+        subtotal += item.price;
+        const li = document.createElement("li");
+        li.innerHTML = `${item.name} – £${item.price.toFixed(2)} <span class="remove" onclick="removeItem(${index})">Remove</span>`;
+        cartList.appendChild(li);
+      });
+
+      let discount = 0;
+      if (cart.length >= 10) {
+        discount = subtotal * 0.2;
+      } else if (cart.length >= 5) {
+        discount = subtotal * 0.1;
+      }
+
+      const total = subtotal - discount;
+      subtotalEl.textContent = subtotal.toFixed(2);
+      discountEl.textContent = discount.toFixed(2);
+      totalEl.textContent = total.toFixed(2);
+    }
+
+    function removeItem(index) {
+      cart.splice(index, 1);
+      localStorage.setItem('cart', JSON.stringify(cart));
+      renderCart();
+    }
+
+    renderCart();
+  function fakeCheckout() {
+  alert('Checkout is not available yet. STL files will be available starting October 2025.');
+}
+
+
+</body>
+</html>
