@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Artifact Armory</title>
+  <title>Cpt. Tom Greene – Artifact Armory</title>
   <style>
     body {
       margin: 0;
@@ -17,57 +17,34 @@
       padding: 1rem;
       text-align: center;
     }
-    nav {
-      background-color: #bfa76f;
-      display: flex;
-      justify-content: center;
-      gap: 2rem;
-      padding: 0.75rem;
-      font-weight: bold;
-    }
-    nav a {
-      color: #2e2e2e;
-      text-decoration: none;
-    }
-    .filters {
+    .container {
+      max-width: 800px;
+      margin: auto;
       padding: 1rem;
+    }
+    .image-gallery {
       display: flex;
       gap: 1rem;
-      justify-content: center;
       flex-wrap: wrap;
+      justify-content: center;
     }
-    .filters label {
-      font-weight: bold;
-      margin-right: 0.5rem;
-    }
-    .products {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-      gap: 1rem;
-      padding: 1rem;
-    }
-    .product {
-      background: white;
-      padding: 1rem;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-      text-align: center;
-    }
-    .product img {
-      width: 100%;
+    .image-gallery img {
+      max-width: 100%;
+      width: 200px;
       border-radius: 4px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
-    .product h3 {
-      margin: 0.5rem 0;
+    .description {
+      margin-top: 1rem;
     }
-    .product button {
+    .back-link {
+      display: inline-block;
+      margin-top: 2rem;
       padding: 0.5rem 1rem;
       background-color: #bfa76f;
       color: #2e2e2e;
-      border: none;
+      text-decoration: none;
       border-radius: 4px;
-      font-weight: bold;
-      cursor: pointer;
     }
     footer {
       background-color: #2e2e2e;
@@ -75,92 +52,39 @@
       text-align: center;
       padding: 1rem;
       font-size: 0.9rem;
+      margin-top: 2rem;
     }
   </style>
 </head>
 <body>
   <header>
-    <h1>Artifact Armory</h1>
-    <p>Historically Scanned. Digitally Forged.</p>
+    <h1>Cpt. Tom Greene</h1>
+    <p>101st Airborne Division</p>
   </header>
 
-  <nav>
-    <a href="#products">STLs</a>
-    <a href="#about">About</a>
-    <a href="#contact">Contact</a>
-  </nav>
-
-  <section class="filters">
-    <div>
-      <label for="army">Army</label>
-      <select id="army" onchange="filterProducts()">
-        <option value="all">All</option>
-        <option value="101st">101st Airborne</option>
-        <option value="paras">British Paras</option>
-      </select>
-    </div>
-    <div>
-      <label for="stance">Stance</label>
-      <select id="stance" onchange="filterProducts()">
-        <option value="all">All</option>
-        <option value="standing">Standing</option>
-        <option value="kneeling">Kneeling</option>
-        <option value="prone">Prone</option>
-      </select>
-    </div>
-  </section>
-
-  <section id="products" class="products">
-    <!-- 16 Example Products -->
-    <!-- 101st Airborne -->
-    <div class="product" data-army="101st" data-stance="standing">
-      <img src="images/American.jpeg" alt="Miniature STL">
-      <h3><a href="cpt-tom.html" style="text-decoration: none; color: inherit;">Cpt. Greene (S)</a></h3>
-      <p>£4.49 – STL File</p>
-      <button onclick="location.href='cpt-tom.html'">View Details</button>
-    </div>
-    <div class="product" data-army="101st" data-stance="kneeling">
-      <img src="images/American.jpeg" alt="Miniature STL">
-      <h3><a href="cpt-tom.html" style="text-decoration: none; color: inherit;">Cpt. Greene (K)</a></h3>
-      <p>£4.49 – STL File</p>
-      <button onclick="location.href='cpt-tom.html'">View Details</button>
+  <div class="container">
+    <div class="image-gallery">
+      <img src="images/cpt-tom-standing.jpg" alt="Cpt. Tom Standing">
+      <img src="images/cpt-tom-kneeling.jpg" alt="Cpt. Tom Kneeling">
+      <img src="images/cpt-tom-prone.jpg" alt="Cpt. Tom Prone">
     </div>
 
-    <!-- Remaining products unchanged -->
-    <!-- ... -->
-  </section>
+    <div class="description">
+      <h2>Bio</h2>
+      <p>Captain Tom Greene served in the 101st Airborne during the Second World War. Known for his calm leadership under fire, Greene was a key figure in securing the causeways leading inland from Utah Beach following the D-Day landings.</p>
 
-  <section id="about" style="padding: 1rem; text-align: center;">
-    <h2>About Artifact Armory</h2>
-    <p>Our miniatures are built from high-resolution 3D scans of real uniforms and kit. Designed for painters, collectors, and historical wargamers who demand realism.</p>
-  </section>
+      <h2>Uniform & Equipment</h2>
+      <p>Wearing the M1942 Paratrooper uniform, Tom is equipped with the M1 Garand rifle, standard issue jump boots, and webbing suited for airborne operations. His helmet features a net cover and captain’s rank insignia stencilled on the rear.</p>
 
-  <section id="contact" style="padding: 1rem; text-align: center;">
-    <h2>Contact</h2>
-    <p>Email: contact@artifactarmory.com</p>
-  </section>
+      <h2>Campaign</h2>
+      <p>This miniature represents Cpt. Tom Greene during <strong>Operation Overlord</strong>, June 1944 – the Normandy invasion. The uniform reflects standard loadout for pathfinders and lead officers of the 101st during the early stages of the assault.</p>
+
+      <a class="back-link" href="index.html">← Back to Catalogue</a>
+    </div>
+  </div>
 
   <footer>
     <p>&copy; 2025 Artifact Armory. All rights reserved.</p>
   </footer>
-
-  <script>
-    function filterProducts() {
-      const army = document.getElementById("army").value;
-      const stance = document.getElementById("stance").value;
-      const products = document.querySelectorAll(".product");
-
-      products.forEach(product => {
-        const matchesArmy = (army === "all" || product.dataset.army === army);
-        const matchesStance = (stance === "all" || product.dataset.stance === stance);
-
-        if (matchesArmy && matchesStance) {
-          product.style.display = "block";
-        } else {
-          product.style.display = "none";
-        }
-      });
-    }
-  </script>
 </body>
 </html>
