@@ -168,8 +168,8 @@
         return;
       }
 
-      // Placeholder: would process and email files here
-      console.log("Confirmed order for:", email);
+      localStorage.setItem("checkoutEmail", email);
+      localStorage.removeItem("cart");
       window.location.href = "thankyou.html";
     }
 
