@@ -32,7 +32,7 @@
     main {
       max-width: 800px;
       margin: 2rem auto;
-      padding: 1rem;
+      padding: 2rem;
       background: white;
       border-radius: 8px;
       box-shadow: 0 2px 10px rgba(0,0,0,0.1);
@@ -66,6 +66,12 @@
       cursor: pointer;
       border-radius: 6px;
     }
+    #discount-note {
+      font-weight: bold;
+      color: green;
+      margin-top: 1rem;
+      text-align: center;
+    }
     footer {
       background-color: #2e2e2e;
       color: white;
@@ -86,13 +92,14 @@
   <nav>
     <a href="index.html">STLs</a>
     <a href="bundle.html">Build a Bundle</a>
-    <a href="#contact">Contact</a>
+    <a href="checkout.html">Checkout</a>
   </nav>
 
   <main>
     <h2>Your Cart</h2>
     <ul id="cart-items"></ul>
     <p><strong>Total: £<span id="cart-total">0.00</span></strong></p>
+    <p id="discount-note"></p>
     <button id="clear-cart">Clear Cart</button>
   </main>
 
@@ -101,9 +108,11 @@
   </footer>
 
   <script>
+    const BASE_PRICE = 4.49;
     const cartItemsEl = document.getElementById("cart-items");
     const totalEl = document.getElementById("cart-total");
     const clearCartBtn = document.getElementById("clear-cart");
+    const discountNote = document.getElementById("discount-note");
 
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
@@ -127,29 +136,45 @@
       renderCart();
     }
 
+    function getDiscountRate(quantity) {
+      if (quantity >= 10) return 0.20; // 20% discount
+      if (quantity >= 5) return 0.10;  // 10% discount
+      return 0;                        // no discount
+    }
+
     function renderCart() {
       cartItemsEl.innerHTML = "";
       let total = 0;
+      const itemCount = cart.length;
+      const discountRate = getDiscountRate(itemCount);
 
-      if (cart.length === 0) {
+      if (itemCount === 0) {
         cartItemsEl.innerHTML = "<li>Your cart is empty.</li>";
         totalEl.textContent = "0.00";
+        discountNote.textContent = "";
         return;
       }
 
       cart.forEach((item, index) => {
+        const discountedPrice = BASE_PRICE * (1 - discountRate);
         const li = document.createElement("li");
-        const isBundlePrice = item.price < 4.49;
         li.innerHTML = `
-          ${item.name} – ${formatPrice(item.price)}
-          ${isBundlePrice ? '<span style="font-size: 0.85em; color: green;">(Bundle Price)</span>' : ''}
+          ${item.name} – ${formatPrice(discountedPrice)}
+          ${discountRate > 0 ? '<span style="font-size: 0.85em; color: green;">(Bundle Price)</span>' : ''}
           <button class="remove-btn" onclick="removeItem(${index})">Remove</button>
         `;
         cartItemsEl.appendChild(li);
-        total += item.price;
+        total += discountedPrice;
       });
 
       totalEl.textContent = total.toFixed(2);
+      if (discountRate === 0.10) {
+        discountNote.textContent = "🟢 10% Bundle Discount Applied";
+      } else if (discountRate === 0.20) {
+        discountNote.textContent = "🟢 20% Bundle Discount Applied";
+      } else {
+        discountNote.textContent = "No discount applied yet. Add 5 or more STLs to unlock bundle pricing.";
+      }
     }
 
     clearCartBtn.addEventListener("click", clearCart);
