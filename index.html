@@ -149,8 +149,73 @@
     <div class="cart-icon" onclick="toggleCart()">🛒 Cart (<span id="cart-count">0</span>)</div>
   </nav>
 
-  <!-- Product listing remains unchanged -->
-  <!-- ... (truncated for clarity) ... -->
+  <section class="filters">
+    <div>
+      <label for="army">Army</label>
+      <select id="army" onchange="filterProducts()">
+        <option value="all">All</option>
+        <option value="101st">101st Airborne</option>
+        <option value="paras">British Paras</option>
+      </select>
+    </div>
+    <div>
+      <label for="stance">Stance</label>
+      <select id="stance" onchange="filterProducts()">
+        <option value="all">All</option>
+        <option value="standing">Standing</option>
+        <option value="kneeling">Kneeling</option>
+        <option value="prone">Prone</option>
+      </select>
+    </div>
+  </section>
+
+  <section id="products" class="products">
+    <div class="product" data-army="101st" data-stance="standing">
+      <img src="images/cpt-tom-standing.jpg" alt="Cpt. Greene Standing">
+      <h3><a href="cpt-tom.html" style="text-decoration: none; color: inherit;">Cpt. Greene (S)</a></h3>
+      <p>£4.49 – STL File</p>
+      <button onclick="location.href='cpt-tom.html'">View Details</button>
+      <button onclick="addToCart('Cpt. Greene (S)', 4.49)">Add to Cart</button>
+    </div>
+    <div class="product" data-army="101st" data-stance="kneeling">
+      <img src="images/cpt-tom-kneeling.jpg" alt="Cpt. Greene Kneeling">
+      <h3><a href="cpt-tom.html" style="text-decoration: none; color: inherit;">Cpt. Greene (K)</a></h3>
+      <p>£4.49 – STL File</p>
+      <button onclick="location.href='cpt-tom.html'">View Details</button>
+      <button onclick="addToCart('Cpt. Greene (K)', 4.49)">Add to Cart</button>
+    </div>
+    <div class="product" data-army="paras" data-stance="standing">
+      <img src="images/cpt-white-standing.jpg" alt="Cpt. White Standing">
+      <h3><a href="cpt-white.html" style="text-decoration: none; color: inherit;">Cpt. White (S)</a></h3>
+      <p>£4.49 – STL File</p>
+      <button onclick="location.href='cpt-white.html'">View Details</button>
+      <button onclick="addToCart('Cpt. White (S)', 4.49)">Add to Cart</button>
+    </div>
+    <div class="product" data-army="paras" data-stance="kneeling">
+      <img src="images/cpt-white-kneeling.jpg" alt="Cpt. White Kneeling">
+      <h3><a href="cpt-white.html" style="text-decoration: none; color: inherit;">Cpt. White (K)</a></h3>
+      <p>£4.49 – STL File</p>
+      <button onclick="location.href='cpt-white.html'">View Details</button>
+      <button onclick="addToCart('Cpt. White (K)', 4.49)">Add to Cart</button>
+    </div>
+    <div class="product" data-army="paras" data-stance="prone">
+      <img src="images/cpt-white-prone.jpg" alt="Cpt. White Prone">
+      <h3><a href="cpt-white.html" style="text-decoration: none; color: inherit;">Cpt. White (P)</a></h3>
+      <p>£4.49 – STL File</p>
+      <button onclick="location.href='cpt-white.html'">View Details</button>
+      <button onclick="addToCart('Cpt. White (P)', 4.49)">Add to Cart</button>
+    </div>
+  </section>
+
+  <section id="about" style="padding: 1rem; text-align: center;">
+    <h2>About Artifact Armoury</h2>
+    <p>Our miniatures are built from high-resolution 3D scans of real uniforms and kit. Designed for painters, collectors, and historical wargamers who demand realism.</p>
+  </section>
+
+  <section id="contact" style="padding: 1rem; text-align: center;">
+    <h2>Contact</h2>
+    <p>Email: contact@artifactarmoury.com</p>
+  </section>
 
   <script>
     const cart = [];
@@ -202,3 +267,4 @@
   </script>
 </body>
 </html>
+
