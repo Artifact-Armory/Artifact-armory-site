@@ -225,41 +225,52 @@
   </section>
 
   <script>
-    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-    function addToCart(name, price) {
-      cart.push({ name, price });
-      localStorage.setItem("cart", JSON.stringify(cart));
-      updateCart();
+  function addToCart(name, price, button = null) {
+    if (cart.some(item => item.name === name)) {
+      alert("This model is already in your cart.");
+      return;
     }
-
-    function updateCart() {
-      const cartCount = document.getElementById("cart-count");
-      const cartItems = document.getElementById("cart-items");
-      const cartTotal = document.getElementById("cart-total");
-
-      cartCount.textContent = cart.length;
-
+    cart.push({ name, price });
+    localStorage.setItem("cart", JSON.stringify(cart));
+    updateCart();
+    if (button) {
+      button.disabled = true;
+      button.textContent = "In Cart";
+      button.style.backgroundColor = "#ccc";
     }
-    function filterProducts() {
-      const army = document.getElementById("army").value;
-      const stance = document.getElementById("stance").value;
-      const products = document.querySelectorAll(".product");
+  }
 
-      products.forEach(product => {
-        const matchesArmy = (army === "all" || product.dataset.army === army);
-        const matchesStance = (stance === "all" || product.dataset.stance === stance);
+  function updateCart() {
+    const cartCount = document.getElementById("cart-count");
+    cartCount.textContent = cart.length;
 
-        if (matchesArmy && matchesStance) {
-          product.style.display = "block";
-        } else {
-          product.style.display = "none";
-        }
-      });
-    }
+    // Disable duplicate Add buttons
+    const buttons = document.querySelectorAll("[data-name]");
+    buttons.forEach(button => {
+      const name = button.getAttribute("data-name");
+      const alreadyInCart = cart.some(item => item.name === name);
+      button.disabled = alreadyInCart;
+      button.textContent = alreadyInCart ? "In Cart" : "Add to Cart";
+      button.style.backgroundColor = alreadyInCart ? "#ccc" : "#bfa76f";
+    });
+  }
 
-    // Load cart on page load
-    window.onload = updateCart;
-  </script>
+  function filterProducts() {
+    const army = document.getElementById("army").value;
+    const stance = document.getElementById("stance").value;
+    const products = document.querySelectorAll(".product");
+
+    products.forEach(product => {
+      const matchesArmy = (army === "all" || product.dataset.army === army);
+      const matchesStance = (stance === "all" || product.dataset.stance === stance);
+
+      product.style.display = (matchesArmy && matchesStance) ? "block" : "none";
+    });
+  }
+
+  window.onload = updateCart;
+</script>
 </body>
 </html>
