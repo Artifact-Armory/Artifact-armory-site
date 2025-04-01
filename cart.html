@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Your Cart – Artifact Armoury</title>
+  <title>Your Cart | Artifact Armoury</title>
   <style>
     body {
       margin: 0;
@@ -17,112 +17,144 @@
       padding: 1rem;
       text-align: center;
     }
-    .container {
+    nav {
+      background-color: #bfa76f;
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      padding: 0.75rem;
+      font-weight: bold;
+    }
+    nav a {
+      color: #2e2e2e;
+      text-decoration: none;
+    }
+    main {
       max-width: 800px;
       margin: 2rem auto;
       padding: 1rem;
-      background: #ffffff;
+      background: white;
       border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
     }
     h2 {
-      margin-top: 0;
+      text-align: center;
     }
-    ul {
+    ul#cart-items {
       list-style: none;
       padding: 0;
     }
-    li {
-      display: flex;
-      justify-content: space-between;
+    ul#cart-items li {
       padding: 0.75rem 0;
-      border-bottom: 1px solid #ccc;
+      border-bottom: 1px solid #ddd;
     }
-    .summary {
-      margin-top: 1.5rem;
-      font-size: 1.1rem;
-    }
-    .summary p {
-      margin: 0.5rem 0;
-    }
-    .btn {
-      display: inline-block;
-      margin-top: 2rem;
-      padding: 0.75rem 1.5rem;
-      background-color: #bfa76f;
-      color: #2e2e2e;
-      font-weight: bold;
-      text-decoration: none;
+    .remove-btn {
+      background: red;
+      color: white;
+      border: none;
+      padding: 2px 8px;
+      margin-left: 1rem;
       border-radius: 4px;
       cursor: pointer;
     }
-    .remove {
-      color: red;
+    #clear-cart {
+      margin-top: 1rem;
+      background: #ccc;
+      border: none;
+      padding: 0.5rem 1rem;
+      font-weight: bold;
       cursor: pointer;
+      border-radius: 6px;
+    }
+    footer {
+      background-color: #2e2e2e;
+      color: white;
+      text-align: center;
+      padding: 1rem;
       font-size: 0.9rem;
+      margin-top: 2rem;
     }
   </style>
 </head>
 <body>
+
   <header>
-    <h1>Your Cart</h1>
+    <h1>Artifact Armoury</h1>
+    <p>Historically Scanned. Digitally Forged.</p>
   </header>
-  <div class="container">
-    <ul id="cart-list"></ul>
 
-    <div class="summary">
-      <p>Subtotal: £<span id="subtotal">0.00</span></p>
-      <p>Discount: -£<span id="discount">0.00</span></p>
-      <p><strong>Total: £<span id="total">0.00</span></strong></p>
-    </div>
+  <nav>
+    <a href="index.html">STLs</a>
+    <a href="bundle.html">Build a Bundle</a>
+    <a href="#contact">Contact</a>
+  </nav>
 
-    <a class="btn" href="#" onclick="fakeCheckout()">Proceed to Checkout</a>
-    <p style="margin-top: 1rem; font-style: italic; font-size: 0.9rem;">(Note: Checkout is currently disabled until STL files launch in October.)</p>
-  </div>
+  <main>
+    <h2>Your Cart</h2>
+    <ul id="cart-items"></ul>
+    <p><strong>Total: £<span id="cart-total">0.00</span></strong></p>
+    <button id="clear-cart">Clear Cart</button>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Artifact Armoury. All rights reserved.</p>
+  </footer>
 
   <script>
-    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const cartItemsEl = document.getElementById("cart-items");
+    const totalEl = document.getElementById("cart-total");
+    const clearCartBtn = document.getElementById("clear-cart");
 
-    function renderCart() {
-      const cartList = document.getElementById("cart-list");
-      const subtotalEl = document.getElementById("subtotal");
-      const discountEl = document.getElementById("discount");
-      const totalEl = document.getElementById("total");
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-      cartList.innerHTML = "";
+    function formatPrice(p) {
+      return `£${p.toFixed(2)}`;
+    }
 
-      let subtotal = 0;
-      cart.forEach((item, index) => {
-        subtotal += item.price;
-        const li = document.createElement("li");
-        li.innerHTML = `${item.name} – £${item.price.toFixed(2)} <span class="remove" onclick="removeItem(${index})">Remove</span>`;
-        cartList.appendChild(li);
-      });
-
-      let discount = 0;
-      if (cart.length >= 10) {
-        discount = subtotal * 0.2;
-      } else if (cart.length >= 5) {
-        discount = subtotal * 0.1;
-      }
-
-      const total = subtotal - discount;
-      subtotalEl.textContent = subtotal.toFixed(2);
-      discountEl.textContent = discount.toFixed(2);
-      totalEl.textContent = total.toFixed(2);
+    function saveCart() {
+      localStorage.setItem("cart", JSON.stringify(cart));
     }
 
     function removeItem(index) {
       cart.splice(index, 1);
-      localStorage.setItem('cart', JSON.stringify(cart));
+      saveCart();
       renderCart();
     }
 
-    function fakeCheckout() {
-      alert('Checkout is not available yet. STL files will be available starting October 2025.');
+    function clearCart() {
+      cart = [];
+      saveCart();
+      renderCart();
     }
 
+    function renderCart() {
+      cartItemsEl.innerHTML = "";
+      let total = 0;
+
+      if (cart.length === 0) {
+        cartItemsEl.innerHTML = "<li>Your cart is empty.</li>";
+        totalEl.textContent = "0.00";
+        return;
+      }
+
+      cart.forEach((item, index) => {
+        const li = document.createElement("li");
+        const isBundlePrice = item.price < 4.49;
+        li.innerHTML = `
+          ${item.name} – ${formatPrice(item.price)}
+          ${isBundlePrice ? '<span style="font-size: 0.85em; color: green;">(Bundle Price)</span>' : ''}
+          <button class="remove-btn" onclick="removeItem(${index})">Remove</button>
+        `;
+        cartItemsEl.appendChild(li);
+        total += item.price;
+      });
+
+      totalEl.textContent = total.toFixed(2);
+    }
+
+    clearCartBtn.addEventListener("click", clearCart);
     renderCart();
   </script>
+
 </body>
 </html>
