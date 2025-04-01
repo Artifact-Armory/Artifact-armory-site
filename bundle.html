@@ -6,18 +6,55 @@
   <title>Build a Bundle | Artifact Armoury</title>
   <style>
     body {
+      margin: 0;
       font-family: Georgia, serif;
       background-color: #f4f1ee;
       color: #2e2e2e;
-      margin: 0;
+    }
+    header {
+      background-color: #2e2e2e;
+      color: #f4f1ee;
       padding: 1rem;
+      text-align: center;
+    }
+    nav {
+      background-color: #bfa76f;
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      padding: 0.75rem;
+      font-weight: bold;
+      position: relative;
+    }
+    nav a {
+      color: #2e2e2e;
+      text-decoration: none;
+    }
+    .cart-icon {
+      position: absolute;
+      right: 1rem;
+      top: 0.75rem;
+      background: #fff;
+      border: 1px solid #2e2e2e;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      cursor: pointer;
+      z-index: 10;
+    }
+    @media (max-width: 600px) {
+      .cart-icon {
+        top: 3rem;
+        right: 0.5rem;
+        font-size: 0.9rem;
+        padding: 0.4rem 0.8rem;
+      }
     }
     h1, h2 {
       text-align: center;
     }
     .bundle-options {
       text-align: center;
-      margin-bottom: 1.5rem;
+      margin: 1rem;
     }
     .bundle-options label {
       margin: 0 1rem;
@@ -27,8 +64,7 @@
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
       gap: 1rem;
-      max-width: 1000px;
-      margin: 0 auto;
+      padding: 1rem;
     }
     .item {
       background: white;
@@ -62,9 +98,29 @@
       background-color: #ccc;
       cursor: not-allowed;
     }
+    footer {
+      background-color: #2e2e2e;
+      color: white;
+      text-align: center;
+      padding: 1rem;
+      font-size: 0.9rem;
+      margin-top: 2rem;
+    }
   </style>
 </head>
 <body>
+
+  <header>
+    <h1>Artifact Armoury</h1>
+    <p>Historically Scanned. Digitally Forged.</p>
+  </header>
+
+  <nav>
+    <a href="index.html">STLs</a>
+    <a href="#about">About</a>
+    <a href="#contact">Contact</a>
+    <div class="cart-icon" onclick="alert('Cart functionality coming soon!')">🛒 Cart (<span id="cart-count">0</span>)</div>
+  </nav>
 
   <h1>🎖️ Build Your Bundle</h1>
   <p style="text-align:center;">Choose a set of <strong>5</strong> or <strong>10</strong> STL miniatures</p>
@@ -75,48 +131,32 @@
   </div>
 
   <div class="grid" id="bundleGrid">
-    <!-- Miniature checkboxes go here -->
-    <!-- Sample items (you can expand with more) -->
+    <!-- You can add more model blocks here -->
     <div class="item">
       <img src="images/cpt-tom-standing.jpg" alt="Cpt. Greene (S)">
       <p><input type="checkbox" value="Cpt. Greene (S)"> Cpt. Greene (S)</p>
-    </div>
-    <div class="item">
-      <img src="images/cpt-tom-kneeling.jpg" alt="Cpt. Greene (K)">
-      <p><input type="checkbox" value="Cpt. Greene (K)"> Cpt. Greene (K)</p>
-    </div>
-    <div class="item">
-      <img src="images/cpt-white-standing.jpg" alt="Cpt. White (S)">
-      <p><input type="checkbox" value="Cpt. White (S)"> Cpt. White (S)</p>
     </div>
     <div class="item">
       <img src="images/cpt-white-kneeling.jpg" alt="Cpt. White (K)">
       <p><input type="checkbox" value="Cpt. White (K)"> Cpt. White (K)</p>
     </div>
     <div class="item">
-      <img src="images/cpt-white-prone.jpg" alt="Cpt. White (P)">
-      <p><input type="checkbox" value="Cpt. White (P)"> Cpt. White (P)</p>
-    </div>
-    <div class="item">
       <img src="images/sgt-wells-standing.jpg" alt="Sgt. Wells (S)">
       <p><input type="checkbox" value="Sgt. Wells (S)"> Sgt. Wells (S)</p>
-    </div>
-    <div class="item">
-      <img src="images/sgt-wells-kneeling.jpg" alt="Sgt. Wells (K)">
-      <p><input type="checkbox" value="Sgt. Wells (K)"> Sgt. Wells (K)</p>
-    </div>
-    <div class="item">
-      <img src="images/pvt-jackson-standing.jpg" alt="Pvt. Jackson (S)">
-      <p><input type="checkbox" value="Pvt. Jackson (S)"> Pvt. Jackson (S)</p>
     </div>
     <div class="item">
       <img src="images/pvt-jackson-kneeling.jpg" alt="Pvt. Jackson (K)">
       <p><input type="checkbox" value="Pvt. Jackson (K)"> Pvt. Jackson (K)</p>
     </div>
+    <!-- Add more as needed -->
   </div>
 
   <div class="count-display" id="countDisplay">0 of 5 selected</div>
   <button class="bundle-submit" id="submitBundle" disabled>Add Bundle to Cart</button>
+
+  <footer>
+    <p>&copy; 2025 Artifact Armoury. All rights reserved.</p>
+  </footer>
 
   <script>
     const checkboxes = document.querySelectorAll('input[type="checkbox"]');
@@ -137,15 +177,13 @@
 
     checkboxes.forEach(cb => cb.addEventListener("change", updateSelection));
     radios.forEach(radio => radio.addEventListener("change", () => {
-      // Clear all selections when switching bundle size
       checkboxes.forEach(cb => cb.checked = false);
       updateSelection();
     }));
 
     submitButton.addEventListener("click", () => {
       const selected = Array.from(document.querySelectorAll('input[type="checkbox"]:checked')).map(cb => cb.value);
-      alert(`Bundle added to cart: \n${selected.join("\n")}`);
-      // Future: Push to localStorage/cart system here
+      alert(`Bundle added to cart:\n\n${selected.join("\n")}`);
     });
 
     updateSelection();
