@@ -2,14 +2,14 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Your Cart | Artifact Armoury</title>
   <style>
     body {
-      margin: 0;
       font-family: Georgia, serif;
       background-color: #f4f1ee;
       color: #2e2e2e;
+      margin: 0;
     }
     header {
       background-color: #2e2e2e;
@@ -30,47 +30,80 @@
       text-decoration: none;
     }
     main {
-      max-width: 800px;
+      max-width: 700px;
       margin: 2rem auto;
-      padding: 2rem;
       background: white;
+      padding: 2rem;
       border-radius: 8px;
       box-shadow: 0 2px 10px rgba(0,0,0,0.1);
     }
     h2 {
       text-align: center;
     }
-    ul#cart-items {
+    ul {
       list-style: none;
       padding: 0;
     }
-    ul#cart-items li {
+    li {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
       padding: 0.75rem 0;
       border-bottom: 1px solid #ddd;
     }
-    .remove-btn {
-      background: red;
-      color: white;
-      border: none;
-      padding: 2px 8px;
-      margin-left: 1rem;
+    li img {
+      width: 60px;
+      height: auto;
       border-radius: 4px;
-      cursor: pointer;
     }
-    #clear-cart {
-      margin-top: 1rem;
-      background: #ccc;
-      border: none;
-      padding: 0.5rem 1rem;
-      font-weight: bold;
-      cursor: pointer;
-      border-radius: 6px;
+    .details {
+      flex-grow: 1;
     }
-    #discount-note {
-      font-weight: bold;
-      color: green;
-      margin-top: 1rem;
+    .remove {
+      color: red;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+    .total,
+    .discount-note,
+    #discount-hint {
       text-align: center;
+      font-weight: bold;
+      margin-top: 1rem;
+    }
+    .discount-note {
+      color: green;
+    }
+    #discount-hint {
+      color: #aa5500;
+    }
+    .clear-btn {
+      display: block;
+      margin: 1.5rem auto 0;
+      padding: 0.5rem 1rem;
+      background-color: #ccc;
+      border: none;
+      font-weight: bold;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+    #checkout-button-container {
+      display: none;
+    }
+    #checkout-button-container button {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background-color: #bfa76f;
+      color: #2e2e2e;
+      font-weight: bold;
+      padding: 1rem;
+      border: none;
+      font-size: 1.2rem;
+      cursor: pointer;
+      z-index: 1000;
     }
     footer {
       background-color: #2e2e2e;
@@ -78,7 +111,7 @@
       text-align: center;
       padding: 1rem;
       font-size: 0.9rem;
-      margin-top: 2rem;
+      margin-top: 3rem;
     }
   </style>
 </head>
@@ -86,22 +119,29 @@
 
   <header>
     <h1>Artifact Armoury</h1>
-    <p>Historically Scanned. Digitally Forged.</p>
+    <p>Your Miniature Cart</p>
   </header>
 
   <nav>
-    <a href="index.html">STLs</a>
+    <a href="store.html">Browse</a>
     <a href="bundle.html">Build a Bundle</a>
     <a href="checkout.html">Checkout</a>
   </nav>
 
   <main>
-    <h2>Your Cart</h2>
-    <ul id="cart-items"></ul>
-    <p><strong>Total: £<span id="cart-total">0.00</span></strong></p>
-    <p id="discount-note"></p>
-    <button id="clear-cart">Clear Cart</button>
+    <h2>Your Items</h2>
+    <ul id="cart-list"></ul>
+
+    <div class="total">Total: £<span id="cart-total">0.00</span></div>
+    <div class="discount-note" id="discount-note"></div>
+    <div id="discount-hint"></div>
+
+    <button class="clear-btn" onclick="clearCart()">Clear Cart</button>
   </main>
+
+  <div id="checkout-button-container">
+    <button onclick="window.location.href='checkout.html'">🛒 Proceed to Checkout</button>
+  </div>
 
   <footer>
     <p>&copy; 2025 Artifact Armoury. All rights reserved.</p>
@@ -109,75 +149,87 @@
 
   <script>
     const BASE_PRICE = 4.49;
-    const cartItemsEl = document.getElementById("cart-items");
-    const totalEl = document.getElementById("cart-total");
-    const clearCartBtn = document.getElementById("clear-cart");
-    const discountNote = document.getElementById("discount-note");
-
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-    function formatPrice(p) {
-      return `£${p.toFixed(2)}`;
+    function getImageFor(itemName) {
+      const slug = itemName.toLowerCase()
+        .replace("(", "")
+        .replace(")", "")
+        .replace(/[.]/g, "")
+        .replace(/\s+/g, "-");
+      return `images/${slug}.jpg`;
     }
 
-    function saveCart() {
-      localStorage.setItem("cart", JSON.stringify(cart));
+    function getDiscountRate(qty) {
+      if (qty >= 10) return 0.20;
+      if (qty >= 5) return 0.10;
+      return 0;
+    }
+
+    function renderCart() {
+      const cartList = document.getElementById("cart-list");
+      const cartTotal = document.getElementById("cart-total");
+      const discountNote = document.getElementById("discount-note");
+      const discountHint = document.getElementById("discount-hint");
+      const checkoutButton = document.getElementById("checkout-button-container");
+
+      cartList.innerHTML = "";
+      let total = 0;
+      const discount = getDiscountRate(cart.length);
+
+      cart.forEach((item, index) => {
+        const price = BASE_PRICE * (1 - discount);
+        total += price;
+
+        const li = document.createElement("li");
+        li.innerHTML = `
+          <img src="${getImageFor(item.name)}" alt="${item.name}" />
+          <div class="details">
+            ${item.name} – £${price.toFixed(2)}
+            <div class="remove" onclick="removeItem(${index})">Remove</div>
+          </div>
+        `;
+        cartList.appendChild(li);
+      });
+
+      cartTotal.textContent = total.toFixed(2);
+
+      // Show discount note
+      if (discount === 0.10) {
+        discountNote.textContent = "🟢 10% Bundle Discount Applied";
+      } else if (discount === 0.20) {
+        discountNote.textContent = "🟢 20% Bundle Discount Applied";
+      } else {
+        discountNote.textContent = "";
+      }
+
+      // Nudge at 4 or 9 items
+      if (cart.length === 4) {
+        discountHint.textContent = "🎁 Add 1 more to unlock 10% Bundle Discount!";
+      } else if (cart.length === 9) {
+        discountHint.textContent = "🎁 Add 1 more to unlock 20% Bundle Discount!";
+      } else {
+        discountHint.textContent = "";
+      }
+
+      // Show checkout button only if cart isn't empty
+      checkoutButton.style.display = cart.length > 0 ? "block" : "none";
     }
 
     function removeItem(index) {
       cart.splice(index, 1);
-      saveCart();
+      localStorage.setItem("cart", JSON.stringify(cart));
       renderCart();
     }
 
     function clearCart() {
-      cart = [];
-      saveCart();
-      renderCart();
-    }
-
-    function getDiscountRate(quantity) {
-      if (quantity >= 10) return 0.20; // 20% discount
-      if (quantity >= 5) return 0.10;  // 10% discount
-      return 0;                        // no discount
-    }
-
-    function renderCart() {
-      cartItemsEl.innerHTML = "";
-      let total = 0;
-      const itemCount = cart.length;
-      const discountRate = getDiscountRate(itemCount);
-
-      if (itemCount === 0) {
-        cartItemsEl.innerHTML = "<li>Your cart is empty.</li>";
-        totalEl.textContent = "0.00";
-        discountNote.textContent = "";
-        return;
-      }
-
-      cart.forEach((item, index) => {
-        const discountedPrice = BASE_PRICE * (1 - discountRate);
-        const li = document.createElement("li");
-        li.innerHTML = `
-          ${item.name} – ${formatPrice(discountedPrice)}
-          ${discountRate > 0 ? '<span style="font-size: 0.85em; color: green;">(Bundle Price)</span>' : ''}
-          <button class="remove-btn" onclick="removeItem(${index})">Remove</button>
-        `;
-        cartItemsEl.appendChild(li);
-        total += discountedPrice;
-      });
-
-      totalEl.textContent = total.toFixed(2);
-      if (discountRate === 0.10) {
-        discountNote.textContent = "🟢 10% Bundle Discount Applied";
-      } else if (discountRate === 0.20) {
-        discountNote.textContent = "🟢 20% Bundle Discount Applied";
-      } else {
-        discountNote.textContent = "No discount applied yet. Add 5 or more STLs to unlock bundle pricing.";
+      if (confirm("Are you sure you want to clear your cart?")) {
+        cart = [];
+        localStorage.setItem("cart", JSON.stringify(cart));
+        renderCart();
       }
     }
 
-    clearCartBtn.addEventListener("click", clearCart);
     renderCart();
   </script>
 
