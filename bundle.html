@@ -178,7 +178,9 @@
   <div id="bundlePreview" style="text-align: center; margin-top: 1rem;">
   <h3>Selected Models:</h3>
   <ul id="previewList" style="list-style: none; padding: 0;"></ul>
+  <p id="discountNote" style="font-weight: bold; color: green;"></p>
   <p><strong>Total Price: £<span id="bundlePrice">0.00</span></strong></p>
+</div>
 </div>
   <button class="bundle-submit" id="submitBundle" disabled>Add Bundle to Cart</button>
 
@@ -187,14 +189,19 @@
   </footer>
 
   <script>
-    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+  const checkboxes = document.querySelectorAll('input[type="checkbox"]');
   const radios = document.querySelectorAll('input[name="bundleSize"]');
   const countDisplay = document.getElementById("countDisplay");
   const previewList = document.getElementById("previewList");
   const bundlePrice = document.getElementById("bundlePrice");
+  const discountNote = document.getElementById("discountNote");
   const submitButton = document.getElementById("submitBundle");
 
-  const PRICING = { 5: 20.21, 10: 35.92 };
+  const BASE_PRICE = 4.49;
+  const DISCOUNTS = {
+    5: { label: "10% Bundle Discount Applied", multiplier: 0.9 },
+    10: { label: "20% Bundle Discount Applied", multiplier: 0.8 }
+  };
 
   function getBundleSize() {
     return parseInt(document.querySelector('input[name="bundleSize"]:checked').value);
@@ -203,20 +210,30 @@
   function updateSelection() {
     const selected = Array.from(document.querySelectorAll('input[type="checkbox"]:checked'));
     const bundleSize = getBundleSize();
+    const isDiscountApplied = selected.length === bundleSize;
 
     countDisplay.textContent = `${selected.length} of ${bundleSize} selected`;
-    submitButton.disabled = selected.length !== bundleSize;
+    submitButton.disabled = !isDiscountApplied;
 
     // Update preview
     previewList.innerHTML = "";
     selected.forEach(cb => {
       const li = document.createElement("li");
-      li.textContent = cb.value;
+      li.textContent = cb.value + " – £" + BASE_PRICE.toFixed(2);
       previewList.appendChild(li);
     });
 
-    // Update price
-    bundlePrice.textContent = PRICING[bundleSize].toFixed(2);
+    // Calculate price
+    let total = selected.length * BASE_PRICE;
+    if (isDiscountApplied) {
+      const discount = DISCOUNTS[bundleSize];
+      total = total * discount.multiplier;
+      discountNote.textContent = discount.label;
+    } else {
+      discountNote.textContent = "Bundle discount will apply when selection is complete.";
+    }
+
+    bundlePrice.textContent = total.toFixed(2);
   }
 
   checkboxes.forEach(cb => cb.addEventListener("change", updateSelection));
@@ -228,19 +245,22 @@
   submitButton.addEventListener("click", () => {
     const selected = Array.from(document.querySelectorAll('input[type="checkbox"]:checked')).map(cb => cb.value);
     const bundleSize = getBundleSize();
+    const discount = DISCOUNTS[bundleSize].multiplier;
+    const discountedPrice = (BASE_PRICE * discount);
+
     const cart = JSON.parse(localStorage.getItem("cart")) || [];
 
     selected.forEach(name => {
-      cart.push({ name, price: PRICING[bundleSize] / bundleSize });
+      cart.push({ name, price: discountedPrice });
     });
 
     localStorage.setItem("cart", JSON.stringify(cart));
     alert("Bundle added to cart!");
-    window.location.href = "cart.html"; // Redirect to cart if you want
+    window.location.href = "cart.html";
   });
 
   window.onload = updateSelection;
-  </script>
-
+</script>
+  
 </body>
 </html>
