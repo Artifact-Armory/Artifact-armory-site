@@ -21,7 +21,7 @@
       max-width: 800px;
       margin: 2rem auto;
       padding: 1rem;
-      background: white;
+      background: #ffffff;
       border-radius: 8px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
@@ -54,6 +54,7 @@
       font-weight: bold;
       text-decoration: none;
       border-radius: 4px;
+      cursor: pointer;
     }
     .remove {
       color: red;
@@ -75,7 +76,6 @@
       <p><strong>Total: £<span id="total">0.00</span></strong></p>
     </div>
 
-    
     <a class="btn" href="#" onclick="fakeCheckout()">Proceed to Checkout</a>
     <p style="margin-top: 1rem; font-style: italic; font-size: 0.9rem;">(Note: Checkout is currently disabled until STL files launch in October.)</p>
   </div>
@@ -118,11 +118,11 @@
       renderCart();
     }
 
-    renderCart();
-  function fakeCheckout() {
-  alert('Checkout is not available yet. STL files will be available starting October 2025.');
-}
+    function fakeCheckout() {
+      alert('Checkout is not available yet. STL files will be available starting October 2025.');
+    }
 
-
+    renderCart();
+  </script>
 </body>
 </html>
