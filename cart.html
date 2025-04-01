@@ -105,6 +105,47 @@
       cursor: pointer;
       z-index: 1000;
     }
+    .suggested {
+      margin-top: 1.5rem;
+      text-align: center;
+    }
+    .suggested-items {
+      display: flex;
+      overflow-x: auto;
+      gap: 1rem;
+      padding: 1rem 0;
+      justify-content: center;
+    }
+    .suggested-item {
+      background: #fff;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 0.5rem;
+      min-width: 140px;
+      text-align: center;
+      flex: 0 0 auto;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+    .suggested-item img {
+      width: 100px;
+      height: auto;
+      border-radius: 4px;
+    }
+    .suggested-item h4 {
+      margin: 0.5rem 0 0.25rem;
+      font-size: 0.95rem;
+    }
+    .suggested-item button {
+      margin-top: 0.5rem;
+      padding: 0.3rem 0.8rem;
+      font-size: 0.9rem;
+      border: none;
+      background: #bfa76f;
+      color: #2e2e2e;
+      font-weight: bold;
+      border-radius: 4px;
+      cursor: pointer;
+    }
     footer {
       background-color: #2e2e2e;
       color: white;
@@ -135,6 +176,10 @@
     <div class="total">Total: £<span id="cart-total">0.00</span></div>
     <div class="discount-note" id="discount-note"></div>
     <div id="discount-hint"></div>
+    <div class="suggested" id="suggested-section" style="display: none;">
+      <h3>You Might Also Like</h3>
+      <div class="suggested-items" id="suggested-items"></div>
+    </div>
 
     <button class="clear-btn" onclick="clearCart()">Clear Cart</button>
   </main>
@@ -151,13 +196,18 @@
     const BASE_PRICE = 4.49;
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-    function getImageFor(itemName) {
-      const slug = itemName.toLowerCase()
-        .replace("(", "")
-        .replace(")", "")
-        .replace(/[.]/g, "")
-        .replace(/\s+/g, "-");
-      return `images/${slug}.jpg`;
+    const allProducts = [
+      { name: "Cpt. Greene (P)", img: "images/cpt-tom-prone.jpg" },
+      { name: "Sgt. Wells (K)", img: "images/sgt-wells-kneeling.jpg" },
+      { name: "Pvt. Jackson (K)", img: "images/pvt-jackson-kneeling.jpg" },
+      { name: "Pvt. Jackson (S)", img: "images/pvt-jackson-standing.jpg" },
+      { name: "Cpt. White (S)", img: "images/cpt-white-standing.jpg" },
+      { name: "Sgt. Wells (S)", img: "images/sgt-wells-standing.jpg" }
+    ];
+
+    function getImageFor(name) {
+      const match = allProducts.find(p => p.name === name);
+      return match ? match.img : "images/placeholder.jpg";
     }
 
     function getDiscountRate(qty) {
@@ -172,8 +222,11 @@
       const discountNote = document.getElementById("discount-note");
       const discountHint = document.getElementById("discount-hint");
       const checkoutButton = document.getElementById("checkout-button-container");
+      const suggestedSection = document.getElementById("suggested-section");
+      const suggestedItems = document.getElementById("suggested-items");
 
       cartList.innerHTML = "";
+      suggestedItems.innerHTML = "";
       let total = 0;
       const discount = getDiscountRate(cart.length);
 
@@ -193,27 +246,51 @@
       });
 
       cartTotal.textContent = total.toFixed(2);
+      discountNote.textContent =
+        discount === 0.10 ? "🟢 10% Bundle Discount Applied" :
+        discount === 0.20 ? "🟢 20% Bundle Discount Applied" : "";
 
-      // Show discount note
-      if (discount === 0.10) {
-        discountNote.textContent = "🟢 10% Bundle Discount Applied";
-      } else if (discount === 0.20) {
-        discountNote.textContent = "🟢 20% Bundle Discount Applied";
-      } else {
-        discountNote.textContent = "";
-      }
-
-      // Nudge at 4 or 9 items
       if (cart.length === 4) {
         discountHint.textContent = "🎁 Add 1 more to unlock 10% Bundle Discount!";
+        showSuggestions();
       } else if (cart.length === 9) {
         discountHint.textContent = "🎁 Add 1 more to unlock 20% Bundle Discount!";
+        showSuggestions();
       } else {
         discountHint.textContent = "";
+        suggestedSection.style.display = "none";
       }
 
-      // Show checkout button only if cart isn't empty
       checkoutButton.style.display = cart.length > 0 ? "block" : "none";
+    }
+
+    function showSuggestions() {
+      const suggestedSection = document.getElementById("suggested-section");
+      const suggestedItems = document.getElementById("suggested-items");
+
+      suggestedSection.style.display = "block";
+
+      const inCartNames = cart.map(item => item.name);
+      const suggestions = allProducts
+        .filter(p => !inCartNames.includes(p.name))
+        .slice(0, 4);
+
+      suggestions.forEach(item => {
+        const div = document.createElement("div");
+        div.className = "suggested-item";
+        div.innerHTML = `
+          <img src="${item.img}" alt="${item.name}" />
+          <h4>${item.name}</h4>
+          <button onclick="addToCart('${item.name}', ${BASE_PRICE})">Add</button>
+        `;
+        suggestedItems.appendChild(div);
+      });
+    }
+
+    function addToCart(name, price) {
+      cart.push({ name, price });
+      localStorage.setItem("cart", JSON.stringify(cart));
+      renderCart();
     }
 
     function removeItem(index) {
