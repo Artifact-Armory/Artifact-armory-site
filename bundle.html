@@ -175,6 +175,11 @@
   </div>
 
   <div class="count-display" id="countDisplay">0 of 5 selected</div>
+  <div id="bundlePreview" style="text-align: center; margin-top: 1rem;">
+  <h3>Selected Models:</h3>
+  <ul id="previewList" style="list-style: none; padding: 0;"></ul>
+  <p><strong>Total Price: £<span id="bundlePrice">0.00</span></strong></p>
+</div>
   <button class="bundle-submit" id="submitBundle" disabled>Add Bundle to Cart</button>
 
   <footer>
@@ -183,33 +188,58 @@
 
   <script>
     const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-    const radios = document.querySelectorAll('input[name="bundleSize"]');
-    const countDisplay = document.getElementById("countDisplay");
-    const submitButton = document.getElementById("submitBundle");
+  const radios = document.querySelectorAll('input[name="bundleSize"]');
+  const countDisplay = document.getElementById("countDisplay");
+  const previewList = document.getElementById("previewList");
+  const bundlePrice = document.getElementById("bundlePrice");
+  const submitButton = document.getElementById("submitBundle");
 
-    function getBundleSize() {
-      return parseInt(document.querySelector('input[name="bundleSize"]:checked').value);
-    }
+  const PRICING = { 5: 20.21, 10: 35.92 };
 
-    function updateSelection() {
-      const selected = document.querySelectorAll('input[type="checkbox"]:checked').length;
-      const bundleSize = getBundleSize();
-      countDisplay.textContent = `${selected} of ${bundleSize} selected`;
-      submitButton.disabled = selected !== bundleSize;
-    }
+  function getBundleSize() {
+    return parseInt(document.querySelector('input[name="bundleSize"]:checked').value);
+  }
 
-    checkboxes.forEach(cb => cb.addEventListener("change", updateSelection));
-    radios.forEach(radio => radio.addEventListener("change", () => {
-      checkboxes.forEach(cb => cb.checked = false);
-      updateSelection();
-    }));
+  function updateSelection() {
+    const selected = Array.from(document.querySelectorAll('input[type="checkbox"]:checked'));
+    const bundleSize = getBundleSize();
 
-    submitButton.addEventListener("click", () => {
-      const selected = Array.from(document.querySelectorAll('input[type="checkbox"]:checked')).map(cb => cb.value);
-      alert(`Bundle added to cart:\n\n${selected.join("\n")}`);
+    countDisplay.textContent = `${selected.length} of ${bundleSize} selected`;
+    submitButton.disabled = selected.length !== bundleSize;
+
+    // Update preview
+    previewList.innerHTML = "";
+    selected.forEach(cb => {
+      const li = document.createElement("li");
+      li.textContent = cb.value;
+      previewList.appendChild(li);
     });
 
+    // Update price
+    bundlePrice.textContent = PRICING[bundleSize].toFixed(2);
+  }
+
+  checkboxes.forEach(cb => cb.addEventListener("change", updateSelection));
+  radios.forEach(r => r.addEventListener("change", () => {
+    checkboxes.forEach(cb => cb.checked = false);
     updateSelection();
+  }));
+
+  submitButton.addEventListener("click", () => {
+    const selected = Array.from(document.querySelectorAll('input[type="checkbox"]:checked')).map(cb => cb.value);
+    const bundleSize = getBundleSize();
+    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    selected.forEach(name => {
+      cart.push({ name, price: PRICING[bundleSize] / bundleSize });
+    });
+
+    localStorage.setItem("cart", JSON.stringify(cart));
+    alert("Bundle added to cart!");
+    window.location.href = "cart.html"; // Redirect to cart if you want
+  });
+
+  window.onload = updateSelection;
   </script>
 
 </body>
