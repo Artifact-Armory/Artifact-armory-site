@@ -2,20 +2,14 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Artifact Armoury | Historically Accurate Miniature STL Files</title>
-
-  <!-- SEO Tags -->
-  <meta name="description" content="Discover highly detailed 3D printable military miniatures based on real uniforms from WW2, Napoleonic, and medieval eras.">
-  <meta name="keywords" content="historical miniatures, STL files, 3D printing, WW2 miniatures, Napoleonic miniatures, Artifact Armoury, tabletop wargaming">
-  <meta name="author" content="Artifact Armoury">
-
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Artifact Armoury | Historically Accurate STL Files</title>
   <style>
     body {
-      margin: 0;
       font-family: Georgia, serif;
       background-color: #f4f1ee;
       color: #2e2e2e;
+      margin: 0;
     }
     header {
       background-color: #2e2e2e;
@@ -46,14 +40,6 @@
       border-radius: 4px;
       cursor: pointer;
       z-index: 10;
-    }
-    @media (max-width: 600px) {
-      .cart-icon {
-        top: 3rem;
-        right: 0.5rem;
-        font-size: 0.9rem;
-        padding: 0.4rem 0.8rem;
-      }
     }
     .filters {
       padding: 1rem;
@@ -99,7 +85,10 @@
       cursor: pointer;
       margin: 0.25rem;
     }
-    
+    .product button:disabled {
+      background-color: #ccc;
+      cursor: default;
+    }
     footer {
       background-color: #2e2e2e;
       color: white;
@@ -110,6 +99,7 @@
   </style>
 </head>
 <body>
+
   <header>
     <h1>Artifact Armoury</h1>
     <p>Historically Scanned. Digitally Forged.</p>
@@ -117,8 +107,7 @@
 
   <nav>
     <a href="#products">STLs</a>
-    <a href="#about">About</a>
-    <a href="#contact">Contact</a>
+    <a href="bundle.html">Build a Bundle</a>
     <a href="cart.html" class="cart-icon">🛒 Cart (<span id="cart-count">0</span>)</a>
   </nav>
 
@@ -141,136 +130,74 @@
       </select>
     </div>
   </section>
-<section class="bundle-button" style="text-align: center; margin-top: 1rem;">
-  <a href="bundle.html" style="font-weight: bold; font-size: 1.1rem; background-color: #bfa76f; padding: 0.75rem 1.5rem; color: #2e2e2e; text-decoration: none; border-radius: 6px;">
-    🎖️ Build a Bundle (5 or 10 Models)
-  </a>
-</section>
+
   <section id="products" class="products">
+    <!-- Example product: repeat and update as needed -->
     <div class="product" data-army="101st" data-stance="standing">
       <img src="images/cpt-tom-standing.jpg" alt="Cpt. Greene Standing">
       <h3><a href="cpt-tom.html">Cpt. Greene (S)</a></h3>
       <p>£4.49 – STL File</p>
-      <button onclick="location.href='cpt-tom.html'">View Details</button>
-      <button onclick="addToCart('Cpt. Greene (S)', 4.49)">Add to Cart</button>
+      <button data-name="Cpt. Greene (S)" onclick="addToCart('Cpt. Greene (S)', 4.49, this)">Add to Cart</button>
     </div>
     <div class="product" data-army="101st" data-stance="kneeling">
       <img src="images/cpt-tom-kneeling.jpg" alt="Cpt. Greene Kneeling">
       <h3><a href="cpt-tom.html">Cpt. Greene (K)</a></h3>
       <p>£4.49 – STL File</p>
-      <button onclick="location.href='cpt-tom.html'">View Details</button>
-      <button onclick="addToCart('Cpt. Greene (K)', 4.49)">Add to Cart</button>
+      <button data-name="Cpt. Greene (K)" onclick="addToCart('Cpt. Greene (K)', 4.49, this)">Add to Cart</button>
     </div>
-    <div class="product" data-army="paras" data-stance="standing">
-      <img src="images/cpt-white-standing.jpg" alt="Cpt. White Standing">
-      <h3><a href="cpt-white.html">Cpt. White (S)</a></h3>
-      <p>£4.49 – STL File</p>
-      <button onclick="location.href='cpt-white.html'">View Details</button>
-      <button onclick="addToCart('Cpt. White (S)', 4.49)">Add to Cart</button>
-    </div>
-    <div class="product" data-army="paras" data-stance="kneeling">
-      <img src="images/cpt-white-kneeling.jpg" alt="Cpt. White Kneeling">
-      <h3><a href="cpt-white.html">Cpt. White (K)</a></h3>
-      <p>£4.49 – STL File</p>
-      <button onclick="location.href='cpt-white.html'">View Details</button>
-      <button onclick="addToCart('Cpt. White (K)', 4.49)">Add to Cart</button>
-    </div>
-    <div class="product" data-army="paras" data-stance="prone">
-      <img src="images/cpt-white-prone.jpg" alt="Cpt. White Prone">
-      <h3><a href="cpt-white.html">Cpt. White (P)</a></h3>
-      <p>£4.49 – STL File</p>
-      <button onclick="location.href='cpt-white.html'">View Details</button>
-      <button onclick="addToCart('Cpt. White (P)', 4.49)">Add to Cart</button>
-    </div>
-    <!-- Sgt. Wells -->
-<div class="product" data-army="paras" data-stance="standing">
-  <img src="images/sgt-wells-standing.jpg" alt="Sgt. Wells Standing">
-  <h3><a href="sgt-wells.html">Sgt. Wells (S)</a></h3>
-  <p>£4.49 – STL File</p>
-  <button onclick="location.href='sgt-wells.html'">View Details</button>
-  <button onclick="addToCart('Sgt. Wells (S)', 4.49)">Add to Cart</button>
-</div>
-<div class="product" data-army="paras" data-stance="kneeling">
-  <img src="images/sgt-wells-kneeling.jpg" alt="Sgt. Wells Kneeling">
-  <h3><a href="sgt-wells.html">Sgt. Wells (K)</a></h3>
-  <p>£4.49 – STL File</p>
-  <button onclick="location.href='sgt-wells.html'">View Details</button>
-  <button onclick="addToCart('Sgt. Wells (K)', 4.49)">Add to Cart</button>
-</div>
-<!-- Pvt. Jackson -->
-<div class="product" data-army="101st" data-stance="standing">
-  <img src="images/pvt-jackson-standing.jpg" alt="Pvt. Jackson Standing">
-  <h3><a href="pvt-jackson.html">Pvt. Jackson (S)</a></h3>
-  <p>£4.49 – STL File</p>
-  <button onclick="location.href='pvt-jackson.html'">View Details</button>
-  <button onclick="addToCart('Pvt. Jackson (S)', 4.49)">Add to Cart</button>
-</div>
-<div class="product" data-army="101st" data-stance="kneeling">
-  <img src="images/pvt-jackson-kneeling.jpg" alt="Pvt. Jackson Kneeling">
-  <h3><a href="pvt-jackson.html">Pvt. Jackson (K)</a></h3>
-  <p>£4.49 – STL File</p>
-  <button onclick="location.href='pvt-jackson.html'">View Details</button>
-  <button onclick="addToCart('Pvt. Jackson (K)', 4.49)">Add to Cart</button>
-</div>
+    <!-- Add more STL entries as needed -->
   </section>
 
-  <section id="about" style="padding: 1rem; text-align: center;">
-    <h2>About Artifact Armoury</h2>
-    <p>Our miniatures are built from high-resolution 3D scans of real uniforms and kit. Designed for painters, collectors, and historical wargamers who demand realism.</p>
-  </section>
-
-  <section id="contact" style="padding: 1rem; text-align: center;">
-    <h2>Contact</h2>
-    <p>Email: contact@artifactarmoury.com</p>
-  </section>
+  <footer>
+    <p>&copy; 2025 Artifact Armoury. All rights reserved.</p>
+  </footer>
 
   <script>
-  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-  function addToCart(name, price, button = null) {
-    if (cart.some(item => item.name === name)) {
-      alert("This model is already in your cart.");
-      return;
+    function addToCart(name, price, button = null) {
+      if (cart.some(item => item.name === name)) {
+        alert("This model is already in your cart.");
+        return;
+      }
+      cart.push({ name, price });
+      localStorage.setItem("cart", JSON.stringify(cart));
+      updateCart();
+      if (button) {
+        button.disabled = true;
+        button.textContent = "In Cart";
+        button.style.backgroundColor = "#ccc";
+      }
     }
-    cart.push({ name, price });
-    localStorage.setItem("cart", JSON.stringify(cart));
-    updateCart();
-    if (button) {
-      button.disabled = true;
-      button.textContent = "In Cart";
-      button.style.backgroundColor = "#ccc";
+
+    function updateCart() {
+      const cartCount = document.getElementById("cart-count");
+      cartCount.textContent = cart.length;
+
+      const buttons = document.querySelectorAll("[data-name]");
+      buttons.forEach(button => {
+        const name = button.getAttribute("data-name");
+        const inCart = cart.some(item => item.name === name);
+        button.disabled = inCart;
+        button.textContent = inCart ? "In Cart" : "Add to Cart";
+        button.style.backgroundColor = inCart ? "#ccc" : "#bfa76f";
+      });
     }
-  }
 
-  function updateCart() {
-    const cartCount = document.getElementById("cart-count");
-    cartCount.textContent = cart.length;
+    function filterProducts() {
+      const army = document.getElementById("army").value;
+      const stance = document.getElementById("stance").value;
+      const products = document.querySelectorAll(".product");
 
-    // Disable duplicate Add buttons
-    const buttons = document.querySelectorAll("[data-name]");
-    buttons.forEach(button => {
-      const name = button.getAttribute("data-name");
-      const alreadyInCart = cart.some(item => item.name === name);
-      button.disabled = alreadyInCart;
-      button.textContent = alreadyInCart ? "In Cart" : "Add to Cart";
-      button.style.backgroundColor = alreadyInCart ? "#ccc" : "#bfa76f";
-    });
-  }
+      products.forEach(product => {
+        const matchesArmy = (army === "all" || product.dataset.army === army);
+        const matchesStance = (stance === "all" || product.dataset.stance === stance);
+        product.style.display = (matchesArmy && matchesStance) ? "block" : "none";
+      });
+    }
 
-  function filterProducts() {
-    const army = document.getElementById("army").value;
-    const stance = document.getElementById("stance").value;
-    const products = document.querySelectorAll(".product");
+    window.onload = updateCart;
+  </script>
 
-    products.forEach(product => {
-      const matchesArmy = (army === "all" || product.dataset.army === army);
-      const matchesStance = (stance === "all" || product.dataset.stance === stance);
-
-      product.style.display = (matchesArmy && matchesStance) ? "block" : "none";
-    });
-  }
-
-  window.onload = updateCart;
-</script>
 </body>
 </html>
