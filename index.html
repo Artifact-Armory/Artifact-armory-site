@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Artifact Armoury</title>
+
+  <!-- SEO Tags -->
   <meta name="description" content="Discover highly detailed 3D printable military miniatures based on real uniforms from WW2, Napoleonic, and medieval eras.">
   <meta name="keywords" content="historical miniatures, STL files, 3D printing, WW2 miniatures, Napoleonic miniatures, Artifact Armoury, tabletop wargaming">
   <meta name="author" content="Artifact Armoury">
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Artifact Armoury | Historically Accurate Miniature STL Files</title>
+
   <style>
     body {
       margin: 0;
@@ -170,7 +173,41 @@
   </section>
 
   <section id="products" class="products">
-    <!-- Product entries remain unchanged -->
+    <div class="product" data-army="101st" data-stance="standing">
+      <img src="images/cpt-tom-standing.jpg" alt="Cpt. Greene Standing">
+      <h3><a href="cpt-tom.html">Cpt. Greene (S)</a></h3>
+      <p>£4.49 – STL File</p>
+      <button onclick="location.href='cpt-tom.html'">View Details</button>
+      <button onclick="addToCart('Cpt. Greene (S)', 4.49)">Add to Cart</button>
+    </div>
+    <div class="product" data-army="101st" data-stance="kneeling">
+      <img src="images/cpt-tom-kneeling.jpg" alt="Cpt. Greene Kneeling">
+      <h3><a href="cpt-tom.html">Cpt. Greene (K)</a></h3>
+      <p>£4.49 – STL File</p>
+      <button onclick="location.href='cpt-tom.html'">View Details</button>
+      <button onclick="addToCart('Cpt. Greene (K)', 4.49)">Add to Cart</button>
+    </div>
+    <div class="product" data-army="paras" data-stance="standing">
+      <img src="images/cpt-white-standing.jpg" alt="Cpt. White Standing">
+      <h3><a href="cpt-white.html">Cpt. White (S)</a></h3>
+      <p>£4.49 – STL File</p>
+      <button onclick="location.href='cpt-white.html'">View Details</button>
+      <button onclick="addToCart('Cpt. White (S)', 4.49)">Add to Cart</button>
+    </div>
+    <div class="product" data-army="paras" data-stance="kneeling">
+      <img src="images/cpt-white-kneeling.jpg" alt="Cpt. White Kneeling">
+      <h3><a href="cpt-white.html">Cpt. White (K)</a></h3>
+      <p>£4.49 – STL File</p>
+      <button onclick="location.href='cpt-white.html'">View Details</button>
+      <button onclick="addToCart('Cpt. White (K)', 4.49)">Add to Cart</button>
+    </div>
+    <div class="product" data-army="paras" data-stance="prone">
+      <img src="images/cpt-white-prone.jpg" alt="Cpt. White Prone">
+      <h3><a href="cpt-white.html">Cpt. White (P)</a></h3>
+      <p>£4.49 – STL File</p>
+      <button onclick="location.href='cpt-white.html'">View Details</button>
+      <button onclick="addToCart('Cpt. White (P)', 4.49)">Add to Cart</button>
+    </div>
   </section>
 
   <section id="about" style="padding: 1rem; text-align: center;">
@@ -183,12 +220,19 @@
     <p>Email: contact@artifactarmoury.com</p>
   </section>
 
+  <div id="cart">
+    <h2>Your Cart</h2>
+    <ul id="cart-items"></ul>
+    <p><strong>Total: £<span id="cart-total">0.00</span></strong></p>
+    <div id="cart-close" onclick="toggleCart()">Close</div>
+  </div>
+
   <script>
-    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
     function addToCart(name, price) {
       cart.push({ name, price });
-      localStorage.setItem('cart', JSON.stringify(cart));
+      localStorage.setItem("cart", JSON.stringify(cart));
       updateCart();
     }
 
@@ -199,17 +243,15 @@
 
       cartCount.textContent = cart.length;
 
-      if (cartItems && cartTotal) {
-        cartItems.innerHTML = "";
-        let total = 0;
-        cart.forEach(item => {
-          const li = document.createElement("li");
-          li.textContent = `${item.name} – £${item.price.toFixed(2)}`;
-          cartItems.appendChild(li);
-          total += item.price;
-        });
-        cartTotal.textContent = total.toFixed(2);
-      }
+      cartItems.innerHTML = "";
+      let total = 0;
+      cart.forEach(item => {
+        const li = document.createElement("li");
+        li.textContent = `${item.name} – £${item.price.toFixed(2)}`;
+        cartItems.appendChild(li);
+        total += item.price;
+      });
+      cartTotal.textContent = total.toFixed(2);
     }
 
     function toggleCart() {
@@ -234,7 +276,8 @@
       });
     }
 
-    document.addEventListener("DOMContentLoaded", updateCart);
+    // Load cart on page load
+    window.onload = updateCart;
   </script>
 </body>
 </html>
