@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Order Confirmed | Artifact Armoury</title>
+  <title>Thank You | Artifact Armoury</title>
   <style>
     body {
       font-family: Georgia, serif;
@@ -30,20 +30,35 @@
       text-decoration: none;
     }
     main {
-      max-width: 600px;
-      margin: 3rem auto;
+      max-width: 700px;
+      margin: 2rem auto;
       background: white;
       padding: 2rem;
       border-radius: 8px;
       box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-      text-align: center;
     }
     h2 {
       color: green;
-      margin-bottom: 1rem;
+      text-align: center;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+    li {
+      padding: 0.5rem 0;
+      border-bottom: 1px solid #ddd;
+    }
+    .summary {
+      margin-top: 2rem;
+    }
+    .summary p {
+      text-align: center;
+      font-weight: bold;
     }
     button {
-      margin-top: 2rem;
+      display: block;
+      margin: 2rem auto 0;
       background-color: #bfa76f;
       color: #2e2e2e;
       font-weight: bold;
@@ -78,9 +93,16 @@
 
   <main>
     <h2>✅ Order Confirmed!</h2>
-    <p>Thank you for your purchase. Your STL files will be prepared and delivered soon.</p>
-    <p>If you entered your email, we’ll be in touch with download instructions.</p>
+    <p style="text-align: center;">Thank you for your purchase. We’ve received your order and will be in touch soon with download instructions.</p>
 
+    <div class="summary">
+      <p><strong>Order sent to:</strong> <span id="user-email">[Loading...]</span></p>
+      <h3>Items Ordered:</h3>
+      <ul id="order-summary"></ul>
+      <p><strong>Total: £<span id="order-total">0.00</span></strong></p>
+    </div>
+
+    <button onclick="alert('Download links will be emailed to you shortly.')">📦 Download STL Files (Coming Soon)</button>
     <button onclick="window.location.href='index.html'">Return to Homepage</button>
   </main>
 
@@ -88,5 +110,56 @@
     <p>&copy; 2025 Artifact Armoury. All rights reserved.</p>
   </footer>
 
+  <script>
+    const email = localStorage.getItem("checkoutEmail");
+    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+    const BASE_PRICE = 4.49;
+
+    const emailEl = document.getElementById("user-email");
+    const summaryEl = document.getElementById("order-summary");
+    const totalEl = document.getElementById("order-total");
+
+    function getDiscountRate(qty) {
+      if (qty >= 10) return 0.20;
+      if (qty >= 5) return 0.10;
+      return 0;
+    }
+
+    function renderSummary() {
+      emailEl.textContent = email || "Not provided";
+
+      if (!email) {
+        summaryEl.innerHTML = "<li>Email not saved. Order may not be tracked.</li>";
+        totalEl.textContent = "0.00";
+        return;
+      }
+
+      // Simulate cart summary from previous state
+      let order = JSON.parse(sessionStorage.getItem("orderBackup")) || [];
+      const discount = getDiscountRate(order.length);
+      let total = 0;
+
+      if (order.length === 0) {
+        summaryEl.innerHTML = "<li>Your cart was cleared.</li>";
+      } else {
+        order.forEach(item => {
+          const discountedPrice = BASE_PRICE * (1 - discount);
+          const li = document.createElement("li");
+          li.textContent = `${item.name} – £${discountedPrice.toFixed(2)} ${discount > 0 ? '(Bundle Price)' : ''}`;
+          summaryEl.appendChild(li);
+          total += discountedPrice;
+        });
+      }
+
+      totalEl.textContent = total.toFixed(2);
+
+      // Log saved email
+      console.log("Saved email for marketing:", email);
+    }
+
+    renderSummary();
+  </script>
+
 </body>
 </html>
+
