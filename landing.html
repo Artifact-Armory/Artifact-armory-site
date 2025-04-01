@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Artifact Armoury | Historically Scanned Miniatures</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Georgia, serif;
+      background-color: #f4f1ee;
+      color: #2e2e2e;
+    }
+    header {
+      background-color: #2e2e2e;
+      color: #f4f1ee;
+      padding: 2rem 1rem;
+      text-align: center;
+    }
+    .hero {
+      background: url('images/placeholder-hero.jpg') no-repeat center center/cover;
+      height: 300px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 2rem;
+      font-weight: bold;
+      text-shadow: 1px 1px 4px #000;
+    }
+    .content {
+      max-width: 800px;
+      margin: 2rem auto;
+      padding: 0 1.5rem;
+      text-align: center;
+    }
+    .features {
+      display: grid;
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+    .feature {
+      background: white;
+      padding: 1.25rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+    input[type="email"] {
+      padding: 0.75rem;
+      font-size: 1rem;
+      width: 80%;
+      max-width: 400px;
+      margin-top: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+    button {
+      margin-top: 1rem;
+      background-color: #bfa76f;
+      color: #2e2e2e;
+      font-weight: bold;
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    .cta {
+      margin-top: 2rem;
+    }
+    footer {
+      background-color: #2e2e2e;
+      color: white;
+      text-align: center;
+      padding: 1rem;
+      font-size: 0.9rem;
+      margin-top: 3rem;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Artifact Armoury</h1>
+    <p>Historically Scanned. Digitally Forged.</p>
+  </header>
+
+  <div class="hero">
+    Coming Soon
+  </div>
+
+  <section class="content">
+    <h2>Historically Accurate Miniatures, Forged from the Real Thing</h2>
+    <p>We scan real reenactors in period-accurate kit to produce stunning STL files for painters, collectors, and wargamers who demand the best.</p>
+
+    <div class="features">
+      <div class="feature">
+        <h3>🎯 Real Uniforms, Real Detail</h3>
+        <p>Every miniature is derived from high-resolution 3D scans of real people wearing historical kit — no guesswork.</p>
+      </div>
+      <div class="feature">
+        <h3>🧍 Multiple Poses Per Character</h3>
+        <p>Each model has multiple stances (standing, kneeling, prone), all based on the same character and uniform.</p>
+      </div>
+      <div class="feature">
+        <h3>⚔️ Perfect for Dioramas & Wargaming</h3>
+        <p>Use the STLs to build immersive tabletop armies or tell a historical story in miniature.</p>
+      </div>
+    </div>
+
+    <div class="cta">
+      <h3>📬 Be Notified When We Launch</h3>
+      <input type="email" id="early-access-email" placeholder="you@example.com" />
+      <br />
+      <button onclick="saveEarlyAccess()">Join the List</button>
+    </div>
+
+    <div class="cta">
+      <button onclick="window.location.href='index.html'">Enter the Site</button>
+    </div>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Artifact Armoury. All rights reserved.</p>
+  </footer>
+
+  <script>
+    function saveEarlyAccess() {
+      const email = document.getElementById("early-access-email").value;
+      if (!email.includes("@")) {
+        alert("Please enter a valid email address.");
+        return;
+      }
+      localStorage.setItem("earlyAccessEmail", email);
+      alert("Thanks! We'll keep you informed about launch.");
+    }
+  </script>
+
+</body>
+</html>
