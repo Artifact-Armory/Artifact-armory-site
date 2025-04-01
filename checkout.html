@@ -30,7 +30,7 @@
       text-decoration: none;
     }
     main {
-      max-width: 800px;
+      max-width: 700px;
       margin: 2rem auto;
       background: white;
       padding: 2rem;
@@ -47,6 +47,12 @@
     li {
       padding: 0.5rem 0;
       border-bottom: 1px solid #ddd;
+    }
+    #discount-note {
+      font-weight: bold;
+      color: green;
+      margin-top: 1rem;
+      text-align: center;
     }
     input[type="email"] {
       width: 100%;
@@ -95,6 +101,7 @@
     <h2>Checkout</h2>
     <ul id="checkout-items"></ul>
     <p><strong>Total: £<span id="checkout-total">0.00</span></strong></p>
+    <p id="discount-note"></p>
 
     <label for="email">Your Email</label>
     <input type="email" id="email" placeholder="you@example.com" required>
@@ -107,27 +114,51 @@
   </footer>
 
   <script>
+    const BASE_PRICE = 4.49;
     const itemsEl = document.getElementById("checkout-items");
     const totalEl = document.getElementById("checkout-total");
+    const discountNote = document.getElementById("discount-note");
     const cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    function getDiscountRate(quantity) {
+      if (quantity >= 10) return 0.20;
+      if (quantity >= 5) return 0.10;
+      return 0;
+    }
+
+    function formatPrice(p) {
+      return `£${p.toFixed(2)}`;
+    }
 
     function renderCheckout() {
       let total = 0;
-      if (cart.length === 0) {
+      const itemCount = cart.length;
+      const discount = getDiscountRate(itemCount);
+
+      if (itemCount === 0) {
         itemsEl.innerHTML = "<li>Your cart is empty.</li>";
         totalEl.textContent = "0.00";
+        discountNote.textContent = "";
         return;
       }
 
       cart.forEach(item => {
+        const discountedPrice = BASE_PRICE * (1 - discount);
         const li = document.createElement("li");
-        const isDiscount = item.price < 4.49;
-        li.innerHTML = `${item.name} – £${item.price.toFixed(2)} ${isDiscount ? '<span style="color: green;">(Bundle)</span>' : ''}`;
+        li.innerHTML = `${item.name} – ${formatPrice(discountedPrice)} ${discount > 0 ? '<span style="color: green;">(Bundle Price)</span>' : ''}`;
         itemsEl.appendChild(li);
-        total += item.price;
+        total += discountedPrice;
       });
 
       totalEl.textContent = total.toFixed(2);
+
+      if (discount === 0.10) {
+        discountNote.textContent = "🟢 10% Bundle Discount Applied";
+      } else if (discount === 0.20) {
+        discountNote.textContent = "🟢 20% Bundle Discount Applied";
+      } else {
+        discountNote.textContent = "No discount yet. Add 5 or more STLs to unlock bundle pricing.";
+      }
     }
 
     function confirmOrder() {
@@ -137,8 +168,8 @@
         return;
       }
 
-      // Placeholder for actual Gumroad/shop integration
-      console.log("Order confirmed for:", email);
+      // Placeholder: would process and email files here
+      console.log("Confirmed order for:", email);
       window.location.href = "thankyou.html";
     }
 
