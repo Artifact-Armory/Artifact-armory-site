@@ -287,10 +287,14 @@
       });
     }
 
-    function addToCart(name, price) {
-      cart.push({ name, price });
-      localStorage.setItem("cart", JSON.stringify(cart));
-      renderCart();
+   function addToCart(name, price) {
+  if (cart.some(item => item.name === name)) {
+    alert("This model is already in your cart.");
+    return;
+  }
+  cart.push({ name, price });
+  localStorage.setItem("cart", JSON.stringify(cart));
+  renderCart();
     }
 
     function removeItem(index) {
