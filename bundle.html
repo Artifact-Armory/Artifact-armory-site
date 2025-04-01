@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Build a Bundle | Artifact Armoury</title>
+  <style>
+    body {
+      font-family: Georgia, serif;
+      background-color: #f4f1ee;
+      color: #2e2e2e;
+      margin: 0;
+      padding: 1rem;
+    }
+    h1, h2 {
+      text-align: center;
+    }
+    .bundle-options {
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+    .bundle-options label {
+      margin: 0 1rem;
+      font-weight: bold;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1rem;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    .item {
+      background: white;
+      border: 1px solid #ccc;
+      padding: 0.75rem;
+      border-radius: 8px;
+      text-align: center;
+    }
+    .item img {
+      width: 100px;
+      height: auto;
+      border-radius: 4px;
+    }
+    .count-display {
+      text-align: center;
+      margin-top: 1rem;
+      font-weight: bold;
+    }
+    .bundle-submit {
+      display: block;
+      margin: 2rem auto;
+      padding: 0.75rem 1.5rem;
+      font-size: 1.1rem;
+      background-color: #bfa76f;
+      color: #2e2e2e;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .bundle-submit:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🎖️ Build Your Bundle</h1>
+  <p style="text-align:center;">Choose a set of <strong>5</strong> or <strong>10</strong> STL miniatures</p>
+
+  <div class="bundle-options">
+    <label><input type="radio" name="bundleSize" value="5" checked> 5 Models (£20.21)</label>
+    <label><input type="radio" name="bundleSize" value="10"> 10 Models (£35.92)</label>
+  </div>
+
+  <div class="grid" id="bundleGrid">
+    <!-- Miniature checkboxes go here -->
+    <!-- Sample items (you can expand with more) -->
+    <div class="item">
+      <img src="images/cpt-tom-standing.jpg" alt="Cpt. Greene (S)">
+      <p><input type="checkbox" value="Cpt. Greene (S)"> Cpt. Greene (S)</p>
+    </div>
+    <div class="item">
+      <img src="images/cpt-tom-kneeling.jpg" alt="Cpt. Greene (K)">
+      <p><input type="checkbox" value="Cpt. Greene (K)"> Cpt. Greene (K)</p>
+    </div>
+    <div class="item">
+      <img src="images/cpt-white-standing.jpg" alt="Cpt. White (S)">
+      <p><input type="checkbox" value="Cpt. White (S)"> Cpt. White (S)</p>
+    </div>
+    <div class="item">
+      <img src="images/cpt-white-kneeling.jpg" alt="Cpt. White (K)">
+      <p><input type="checkbox" value="Cpt. White (K)"> Cpt. White (K)</p>
+    </div>
+    <div class="item">
+      <img src="images/cpt-white-prone.jpg" alt="Cpt. White (P)">
+      <p><input type="checkbox" value="Cpt. White (P)"> Cpt. White (P)</p>
+    </div>
+    <div class="item">
+      <img src="images/sgt-wells-standing.jpg" alt="Sgt. Wells (S)">
+      <p><input type="checkbox" value="Sgt. Wells (S)"> Sgt. Wells (S)</p>
+    </div>
+    <div class="item">
+      <img src="images/sgt-wells-kneeling.jpg" alt="Sgt. Wells (K)">
+      <p><input type="checkbox" value="Sgt. Wells (K)"> Sgt. Wells (K)</p>
+    </div>
+    <div class="item">
+      <img src="images/pvt-jackson-standing.jpg" alt="Pvt. Jackson (S)">
+      <p><input type="checkbox" value="Pvt. Jackson (S)"> Pvt. Jackson (S)</p>
+    </div>
+    <div class="item">
+      <img src="images/pvt-jackson-kneeling.jpg" alt="Pvt. Jackson (K)">
+      <p><input type="checkbox" value="Pvt. Jackson (K)"> Pvt. Jackson (K)</p>
+    </div>
+  </div>
+
+  <div class="count-display" id="countDisplay">0 of 5 selected</div>
+  <button class="bundle-submit" id="submitBundle" disabled>Add Bundle to Cart</button>
+
+  <script>
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    const radios = document.querySelectorAll('input[name="bundleSize"]');
+    const countDisplay = document.getElementById("countDisplay");
+    const submitButton = document.getElementById("submitBundle");
+
+    function getBundleSize() {
+      return parseInt(document.querySelector('input[name="bundleSize"]:checked').value);
+    }
+
+    function updateSelection() {
+      const selected = document.querySelectorAll('input[type="checkbox"]:checked').length;
+      const bundleSize = getBundleSize();
+      countDisplay.textContent = `${selected} of ${bundleSize} selected`;
+      submitButton.disabled = selected !== bundleSize;
+    }
+
+    checkboxes.forEach(cb => cb.addEventListener("change", updateSelection));
+    radios.forEach(radio => radio.addEventListener("change", () => {
+      // Clear all selections when switching bundle size
+      checkboxes.forEach(cb => cb.checked = false);
+      updateSelection();
+    }));
+
+    submitButton.addEventListener("click", () => {
+      const selected = Array.from(document.querySelectorAll('input[type="checkbox"]:checked')).map(cb => cb.value);
+      alert(`Bundle added to cart: \n${selected.join("\n")}`);
+      // Future: Push to localStorage/cart system here
+    });
+
+    updateSelection();
+  </script>
+
+</body>
+</html>
