@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Build a Bundle | Artifact Armoury</title>
+  <title>Artifact Armoury | Squad Builder</title>
   <style>
     body {
-      margin: 0;
       font-family: Georgia, serif;
       background-color: #f4f1ee;
       color: #2e2e2e;
+      margin: 0;
     }
     header {
       background-color: #2e2e2e;
@@ -17,250 +17,176 @@
       padding: 1rem;
       text-align: center;
     }
-    nav {
-      background-color: #bfa76f;
-      display: flex;
-      justify-content: center;
-      gap: 2rem;
-      padding: 0.75rem;
-      font-weight: bold;
-      position: relative;
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 2rem;
     }
-    nav a {
-      color: #2e2e2e;
-      text-decoration: none;
-    }
-    .cart-icon {
-      position: absolute;
-      right: 1rem;
-      top: 0.75rem;
-      background: #fff;
-      border: 1px solid #2e2e2e;
-      padding: 0.5rem 1rem;
-      border-radius: 4px;
-      cursor: pointer;
-      z-index: 10;
-    }
-    @media (max-width: 600px) {
-      .cart-icon {
-        top: 3rem;
-        right: 0.5rem;
-        font-size: 0.9rem;
-        padding: 0.4rem 0.8rem;
-      }
-    }
-    h1, h2 {
+    h1 {
       text-align: center;
+      margin-bottom: 0.5rem;
     }
-    .bundle-options {
+    .intro {
       text-align: center;
-      margin: 1rem;
+      margin-bottom: 1rem;
+      font-size: 1.1rem;
     }
-    .bundle-options label {
-      margin: 0 1rem;
-      font-weight: bold;
-    }
-    .grid {
+    .builder-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
       gap: 1rem;
-      padding: 1rem;
+      margin: 2rem 0;
     }
-    .item {
+    .model-box {
       background: white;
-      border: 1px solid #ccc;
-      padding: 0.75rem;
+      border: 2px solid #ccc;
       border-radius: 8px;
+      padding: 1rem;
       text-align: center;
+      cursor: pointer;
+      transition: border-color 0.3s;
     }
-    .item img {
-      width: 100px;
+    .model-box.selected {
+      border-color: #bfa76f;
+      background-color: #fff8e1;
+    }
+    .model-box img {
+      width: 100%;
       height: auto;
       border-radius: 4px;
+      margin-bottom: 0.5rem;
     }
-    .count-display {
+    .total-box {
       text-align: center;
-      margin-top: 1rem;
-      font-weight: bold;
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
     }
-    .bundle-submit {
+    .discount-msg {
+      color: green;
+      font-weight: bold;
+      margin-top: 0.5rem;
+    }
+    .confirm-btn {
       display: block;
-      margin: 2rem auto;
-      padding: 0.75rem 1.5rem;
-      font-size: 1.1rem;
+      margin: 0 auto;
       background-color: #bfa76f;
       color: #2e2e2e;
+      padding: 0.75rem 2rem;
+      font-size: 1.1rem;
       border: none;
       border-radius: 6px;
+      font-weight: bold;
       cursor: pointer;
-    }
-    .bundle-submit:disabled {
-      background-color: #ccc;
-      cursor: not-allowed;
-    }
-    footer {
-      background-color: #2e2e2e;
-      color: white;
-      text-align: center;
-      padding: 1rem;
-      font-size: 0.9rem;
-      margin-top: 2rem;
     }
   </style>
 </head>
 <body>
-
   <header>
-    <h1>Artifact Armoury</h1>
-    <p>Historically Scanned. Digitally Forged.</p>
+    <h1>Squad Builder</h1>
+    <p class="intro">Choose up to 10 STL files — discounts apply automatically.<br>Pick 5 to save 10%, or 10 to save 20%.</p>
   </header>
 
-  <nav>
-    <a href="index.html">STLs</a>
-    <a href="#about">About</a>
-    <a href="#contact">Contact</a>
-    <div class="cart-icon" onclick="alert('Cart functionality coming soon!')">🛒 Cart (<span id="cart-count">0</span>)</div>
-  </nav>
+  <div class="container">
+    <div class="builder-grid" id="builder-grid">
+      <!-- Sample entries -->
+      <div class="model-box" onclick="toggleSelection(this, 'Cpt. Greene (S)', 4.49)">
+        <img src="images/cpt-tom-standing.jpg" alt="Cpt. Greene Standing">
+        <strong>Cpt. Greene (S)</strong>
+      </div>
+      <div class="model-box" onclick="toggleSelection(this, 'Cpt. Greene (K)', 4.49)">
+        <img src="images/cpt-tom-kneeling.jpg" alt="Cpt. Greene Kneeling">
+        <strong>Cpt. Greene (K)</strong>
+      </div>
+      <div class="model-box" onclick="toggleSelection(this, 'Cpt. White (S)', 4.49)">
+        <img src="images/cpt-white-standing.jpg" alt="Cpt. White Standing">
+        <strong>Cpt. White (S)</strong>
+      </div>
+      <div class="model-box" onclick="toggleSelection(this, 'Cpt. White (K)', 4.49)">
+        <img src="images/cpt-white-kneeling.jpg" alt="Cpt. White Kneeling">
+        <strong>Cpt. White (K)</strong>
+      </div>
+      <div class="model-box" onclick="toggleSelection(this, 'Cpt. White (P)', 4.49)">
+        <img src="images/cpt-white-prone.jpg" alt="Cpt. White Prone">
+        <strong>Cpt. White (P)</strong>
+      </div>
+      <div class="model-box" onclick="toggleSelection(this, 'Sgt. Wells (S)', 4.49)">
+        <img src="images/sgt-wells-standing.jpg" alt="Sgt. Wells Standing">
+        <strong>Sgt. Wells (S)</strong>
+      </div>
+      <div class="model-box" onclick="toggleSelection(this, 'Sgt. Wells (K)', 4.49)">
+        <img src="images/sgt-wells-kneeling.jpg" alt="Sgt. Wells Kneeling">
+        <strong>Sgt. Wells (K)</strong>
+      </div>
+      <div class="model-box" onclick="toggleSelection(this, 'Pvt. Jackson (S)', 4.49)">
+        <img src="images/pvt-jackson-standing.jpg" alt="Pvt. Jackson Standing">
+        <strong>Pvt. Jackson (S)</strong>
+      </div>
+      <div class="model-box" onclick="toggleSelection(this, 'Pvt. Jackson (K)', 4.49)">
+        <img src="images/pvt-jackson-kneeling.jpg" alt="Pvt. Jackson Kneeling">
+        <strong>Pvt. Jackson (K)</strong>
+      </div>
+    </div>
 
-  <h1>🎖️ Build Your Bundle</h1>
-  <p style="text-align:center;">Choose a set of <strong>5</strong> or <strong>10</strong> STL miniatures</p>
+    <div class="total-box">
+      Total: <span id="total-price">£0.00</span>
+      <div class="discount-msg" id="discount-msg"></div>
+    </div>
 
-  <div class="bundle-options">
-    <label><input type="radio" name="bundleSize" value="5" checked> 5 Models (£20.21)</label>
-    <label><input type="radio" name="bundleSize" value="10"> 10 Models (£35.92)</label>
+    <button class="confirm-btn" onclick="confirmBundle()">Add Squad to Cart</button>
   </div>
-
- <div class="grid" id="bundleGrid">
-  <div class="item">
-    <img src="images/cpt-tom-standing.jpg" alt="Cpt. Greene (S)">
-    <p><input type="checkbox" value="Cpt. Greene (S)"> Cpt. Greene (S)</p>
-  </div>
-  <div class="item">
-    <img src="images/cpt-tom-kneeling.jpg" alt="Cpt. Greene (K)">
-    <p><input type="checkbox" value="Cpt. Greene (K)"> Cpt. Greene (K)</p>
-  </div>
-  <div class="item">
-    <img src="images/cpt-white-standing.jpg" alt="Cpt. White (S)">
-    <p><input type="checkbox" value="Cpt. White (S)"> Cpt. White (S)</p>
-  </div>
-  <div class="item">
-    <img src="images/cpt-white-kneeling.jpg" alt="Cpt. White (K)">
-    <p><input type="checkbox" value="Cpt. White (K)"> Cpt. White (K)</p>
-  </div>
-  <div class="item">
-    <img src="images/cpt-white-prone.jpg" alt="Cpt. White (P)">
-    <p><input type="checkbox" value="Cpt. White (P)"> Cpt. White (P)</p>
-  </div>
-  <div class="item">
-    <img src="images/sgt-wells-standing.jpg" alt="Sgt. Wells (S)">
-    <p><input type="checkbox" value="Sgt. Wells (S)"> Sgt. Wells (S)</p>
-  </div>
-  <div class="item">
-    <img src="images/sgt-wells-kneeling.jpg" alt="Sgt. Wells (K)">
-    <p><input type="checkbox" value="Sgt. Wells (K)"> Sgt. Wells (K)</p>
-  </div>
-  <div class="item">
-    <img src="images/pvt-jackson-standing.jpg" alt="Pvt. Jackson (S)">
-    <p><input type="checkbox" value="Pvt. Jackson (S)"> Pvt. Jackson (S)</p>
-  </div>
-  <div class="item">
-    <img src="images/pvt-jackson-kneeling.jpg" alt="Pvt. Jackson (K)">
-    <p><input type="checkbox" value="Pvt. Jackson (K)"> Pvt. Jackson (K)</p>
-  </div>
-   <div class="item">
-  <img src="images/sgt-barnes-standing.jpg" alt="Sgt. Barnes (S)">
-  <p><input type="checkbox" value="Sgt. Barnes (S)"> Sgt. Barnes (S)</p>
-</div>
-   
-  </div>
-
-  <div class="count-display" id="countDisplay">0 of 5 selected</div>
-  <div id="bundlePreview" style="text-align: center; margin-top: 1rem;">
-  <h3>Selected Models:</h3>
-  <ul id="previewList" style="list-style: none; padding: 0;"></ul>
-  <p id="discountNote" style="font-weight: bold; color: green;"></p>
-  <p><strong>Total Price: £<span id="bundlePrice">0.00</span></strong></p>
-</div>
-</div>
-  <button class="bundle-submit" id="submitBundle" disabled>Add Bundle to Cart</button>
-
-  <footer>
-    <p>&copy; 2025 Artifact Armoury. All rights reserved.</p>
-  </footer>
 
   <script>
-  const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-  const radios = document.querySelectorAll('input[name="bundleSize"]');
-  const countDisplay = document.getElementById("countDisplay");
-  const previewList = document.getElementById("previewList");
-  const bundlePrice = document.getElementById("bundlePrice");
-  const discountNote = document.getElementById("discountNote");
-  const submitButton = document.getElementById("submitBundle");
+    const selectedModels = [];
+    const basePrice = 4.49;
 
-  const BASE_PRICE = 4.49;
-  const DISCOUNTS = {
-    5: { label: "10% Bundle Discount Applied", multiplier: 0.9 },
-    10: { label: "20% Bundle Discount Applied", multiplier: 0.8 }
-  };
-
-  function getBundleSize() {
-    return parseInt(document.querySelector('input[name="bundleSize"]:checked').value);
-  }
-
-  function updateSelection() {
-    const selected = Array.from(document.querySelectorAll('input[type="checkbox"]:checked'));
-    const bundleSize = getBundleSize();
-    const isDiscountApplied = selected.length === bundleSize;
-
-    countDisplay.textContent = `${selected.length} of ${bundleSize} selected`;
-    submitButton.disabled = !isDiscountApplied;
-
-    // Update preview
-    previewList.innerHTML = "";
-    selected.forEach(cb => {
-      const li = document.createElement("li");
-      li.textContent = cb.value + " – £" + BASE_PRICE.toFixed(2);
-      previewList.appendChild(li);
-    });
-
-    // Calculate price
-    let total = selected.length * BASE_PRICE;
-    if (isDiscountApplied) {
-      const discount = DISCOUNTS[bundleSize];
-      total = total * discount.multiplier;
-      discountNote.textContent = discount.label;
-    } else {
-      discountNote.textContent = "Bundle discount will apply when selection is complete.";
+    function toggleSelection(element, name, price) {
+      const index = selectedModels.findIndex(m => m.name === name);
+      if (index > -1) {
+        selectedModels.splice(index, 1);
+        element.classList.remove("selected");
+      } else {
+        if (selectedModels.length >= 10) {
+          alert("You can only select up to 10 STL files.");
+          return;
+        }
+        selectedModels.push({ name, price });
+        element.classList.add("selected");
+      }
+      updateTotal();
     }
 
-    bundlePrice.textContent = total.toFixed(2);
-  }
+    function updateTotal() {
+      const totalRaw = selectedModels.reduce((sum, m) => sum + m.price, 0);
+      let discount = 0;
 
-  checkboxes.forEach(cb => cb.addEventListener("change", updateSelection));
-  radios.forEach(r => r.addEventListener("change", () => {
-    checkboxes.forEach(cb => cb.checked = false);
-    updateSelection();
-  }));
+      if (selectedModels.length >= 10) discount = 0.2;
+      else if (selectedModels.length >= 5) discount = 0.1;
 
-  submitButton.addEventListener("click", () => {
-    const selected = Array.from(document.querySelectorAll('input[type="checkbox"]:checked')).map(cb => cb.value);
-    const bundleSize = getBundleSize();
-    const discount = DISCOUNTS[bundleSize].multiplier;
-    const discountedPrice = (BASE_PRICE * discount);
+      const discounted = totalRaw * (1 - discount);
+      document.getElementById("total-price").textContent = `£${discounted.toFixed(2)}`;
 
-    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+      const msg = document.getElementById("discount-msg");
+      if (discount === 0.2) msg.textContent = "20% discount applied!";
+      else if (discount === 0.1) msg.textContent = "10% discount applied!";
+      else msg.textContent = "";
+    }
 
-    selected.forEach(name => {
-      cart.push({ name, price: discountedPrice });
-    });
+    function confirmBundle() {
+      if (selectedModels.length === 0) {
+        alert("Please select at least one model to continue.");
+        return;
+      }
+      let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-    localStorage.setItem("cart", JSON.stringify(cart));
-    alert("Bundle added to cart!");
-    window.location.href = "cart.html";
-  });
+      selectedModels.forEach(model => {
+        if (!cart.some(item => item.name === model.name)) {
+          cart.push(model);
+        }
+      });
 
-  window.onload = updateSelection;
-</script>
-  
+      localStorage.setItem("cart", JSON.stringify(cart));
+      window.location.href = "cart.html";
+    }
+  </script>
 </body>
 </html>
