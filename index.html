@@ -99,37 +99,7 @@
       cursor: pointer;
       margin: 0.25rem;
     }
-    #cart {
-      display: none;
-      position: fixed;
-      top: 10%;
-      right: 10%;
-      width: 300px;
-      background: white;
-      border: 2px solid #2e2e2e;
-      padding: 1rem;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.3);
-      z-index: 1000;
-    }
-    #cart h2 {
-      margin-top: 0;
-    }
-    #cart ul {
-      list-style: none;
-      padding: 0;
-    }
-    #cart ul li {
-      margin-bottom: 0.5rem;
-    }
-    #cart-close {
-      margin-top: 1rem;
-      display: block;
-      background: #bfa76f;
-      padding: 0.5rem;
-      text-align: center;
-      border-radius: 4px;
-      cursor: pointer;
-    }
+    
     footer {
       background-color: #2e2e2e;
       color: white;
@@ -149,7 +119,7 @@
     <a href="#products">STLs</a>
     <a href="#about">About</a>
     <a href="#contact">Contact</a>
-    <div class="cart-icon" onclick="toggleCart()">🛒 Cart (<span id="cart-count">0</span>)</div>
+    <a href="cart.html" class="cart-icon">🛒 Cart (<span id="cart-count">0</span>)</a>
   </nav>
 
   <section class="filters">
@@ -254,13 +224,6 @@
     <p>Email: contact@artifactarmoury.com</p>
   </section>
 
-  <div id="cart">
-    <h2>Your Cart</h2>
-    <ul id="cart-items"></ul>
-    <p><strong>Total: £<span id="cart-total">0.00</span></strong></p>
-    <div id="cart-close" onclick="toggleCart()">Close</div>
-  </div>
-
   <script>
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
@@ -277,22 +240,7 @@
 
       cartCount.textContent = cart.length;
 
-      cartItems.innerHTML = "";
-      let total = 0;
-      cart.forEach(item => {
-        const li = document.createElement("li");
-        li.textContent = `${item.name} – £${item.price.toFixed(2)}`;
-        cartItems.appendChild(li);
-        total += item.price;
-      });
-      cartTotal.textContent = total.toFixed(2);
     }
-
-    function toggleCart() {
-      const cartEl = document.getElementById("cart");
-      cartEl.style.display = cartEl.style.display === "block" ? "none" : "block";
-    }
-
     function filterProducts() {
       const army = document.getElementById("army").value;
       const stance = document.getElementById("stance").value;
