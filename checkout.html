@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Checkout | Artifact Armoury</title>
   <style>
     body {
@@ -17,164 +17,107 @@
       padding: 1rem;
       text-align: center;
     }
-    nav {
-      background-color: #bfa76f;
-      display: flex;
-      justify-content: center;
-      gap: 2rem;
-      padding: 0.75rem;
-      font-weight: bold;
-    }
-    nav a {
-      color: #2e2e2e;
-      text-decoration: none;
-    }
-    main {
-      max-width: 700px;
+    .container {
+      max-width: 600px;
       margin: 2rem auto;
       background: white;
       padding: 2rem;
-      border-radius: 8px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     }
-    h2 {
+    h1 {
       text-align: center;
+      margin-bottom: 1rem;
+    }
+    .summary {
+      border-top: 1px solid #ccc;
+      margin-top: 1rem;
+      padding-top: 1rem;
     }
     ul {
       list-style: none;
       padding: 0;
+      margin: 0;
     }
     li {
-      padding: 0.5rem 0;
-      border-bottom: 1px solid #ddd;
+      margin-bottom: 0.5rem;
     }
-    #discount-note {
+    .total {
       font-weight: bold;
-      color: green;
       margin-top: 1rem;
-      text-align: center;
     }
     input[type="email"] {
       width: 100%;
       padding: 0.75rem;
       margin-top: 1rem;
       margin-bottom: 1rem;
-      font-size: 1rem;
       border: 1px solid #ccc;
       border-radius: 6px;
+      font-family: inherit;
     }
     button {
       width: 100%;
+      padding: 1rem;
       background-color: #bfa76f;
       color: #2e2e2e;
-      font-weight: bold;
-      padding: 0.75rem;
       border: none;
       border-radius: 6px;
-      font-size: 1rem;
+      font-weight: bold;
+      font-size: 1.1rem;
       cursor: pointer;
     }
-    footer {
-      background-color: #2e2e2e;
-      color: white;
+    .footer-note {
       text-align: center;
-      padding: 1rem;
       font-size: 0.9rem;
+      color: #666;
       margin-top: 2rem;
     }
   </style>
 </head>
 <body>
-
   <header>
-    <h1>Artifact Armoury</h1>
-    <p>Historically Scanned. Digitally Forged.</p>
+    <h1>Secure Checkout</h1>
   </header>
 
-  <nav>
-    <a href="index.html">STLs</a>
-    <a href="bundle.html">Build a Bundle</a>
-    <a href="cart.html">Cart</a>
-  </nav>
+  <div class="container">
+    <h2>Order Summary</h2>
+    <ul id="checkout-items">
+      <!-- Items will be loaded here -->
+    </ul>
+    <p class="total">Total: £<span id="checkout-total">0.00</span></p>
 
-  <main>
-    <h2>Checkout</h2>
-    <ul id="checkout-items"></ul>
-    <p><strong>Total: £<span id="checkout-total">0.00</span></strong></p>
-    <p id="discount-note"></p>
+    <label for="email">Your email (for digital download):</label>
+    <input type="email" id="email" placeholder="you@example.com" required />
 
-    <label for="email">Your Email</label>
-    <input type="email" id="email" placeholder="you@example.com" required>
+    <button onclick="placeOrder()">Confirm Order</button>
 
-    <button onclick="confirmOrder()">Confirm Order</button>
-  </main>
-
-  <footer>
-    <p>&copy; 2025 Artifact Armoury. All rights reserved.</p>
-  </footer>
+    <p class="footer-note">You’ll be redirected to download your files after completing payment. Powered by Gumroad (coming soon).</p>
+  </div>
 
   <script>
-    const BASE_PRICE = 4.49;
-    const itemsEl = document.getElementById("checkout-items");
+    const checkoutItems = JSON.parse(localStorage.getItem("cart")) || [];
+    const list = document.getElementById("checkout-items");
     const totalEl = document.getElementById("checkout-total");
-    const discountNote = document.getElementById("discount-note");
-    const cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-    function getDiscountRate(quantity) {
-      if (quantity >= 10) return 0.20;
-      if (quantity >= 5) return 0.10;
-      return 0;
-    }
+    let total = 0;
+    checkoutItems.forEach(item => {
+      const li = document.createElement("li");
+      li.textContent = `${item.name} – £${item.price.toFixed(2)}`;
+      list.appendChild(li);
+      total += item.price;
+    });
+    totalEl.textContent = total.toFixed(2);
 
-    function formatPrice(p) {
-      return `£${p.toFixed(2)}`;
-    }
-
-    function renderCheckout() {
-      let total = 0;
-      const itemCount = cart.length;
-      const discount = getDiscountRate(itemCount);
-
-      if (itemCount === 0) {
-        itemsEl.innerHTML = "<li>Your cart is empty.</li>";
-        totalEl.textContent = "0.00";
-        discountNote.textContent = "";
-        return;
-      }
-
-      cart.forEach(item => {
-        const discountedPrice = BASE_PRICE * (1 - discount);
-        const li = document.createElement("li");
-        li.innerHTML = `${item.name} – ${formatPrice(discountedPrice)} ${discount > 0 ? '<span style="color: green;">(Bundle Price)</span>' : ''}`;
-        itemsEl.appendChild(li);
-        total += discountedPrice;
-      });
-
-      totalEl.textContent = total.toFixed(2);
-
-      if (discount === 0.10) {
-        discountNote.textContent = "🟢 10% Bundle Discount Applied";
-      } else if (discount === 0.20) {
-        discountNote.textContent = "🟢 20% Bundle Discount Applied";
-      } else {
-        discountNote.textContent = "No discount yet. Add 5 or more STLs to unlock bundle pricing.";
-      }
-    }
-
-    function confirmOrder() {
+    function placeOrder() {
       const email = document.getElementById("email").value;
       if (!email || !email.includes("@")) {
-        alert("Please enter a valid email.");
+        alert("Please enter a valid email address.");
         return;
       }
-
-      localStorage.setItem("checkoutEmail", email);
+      // In a real flow, you'd now submit this to Gumroad or another processor
       localStorage.removeItem("cart");
       window.location.href = "thankyou.html";
     }
-
-    renderCheckout();
   </script>
-
 </body>
 </html>
