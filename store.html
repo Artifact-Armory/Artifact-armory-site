@@ -11,20 +11,24 @@
       color: #2e2e2e;
       margin: 0;
     }
+
     header {
       background-color: #2e2e2e;
       text-align: center;
       padding: 1rem;
     }
+
     header img {
       max-height: 70px;
       margin-bottom: 0.5rem;
     }
+
     header p {
       color: #f4f1ee;
       font-size: 1.1rem;
       margin: 0;
     }
+
     nav {
       background-color: #bfa76f;
       display: flex;
@@ -34,10 +38,12 @@
       font-weight: bold;
       position: relative;
     }
+
     nav a {
       color: #2e2e2e;
       text-decoration: none;
     }
+
     .cart-icon {
       position: absolute;
       right: 1rem;
@@ -56,6 +62,7 @@
       justify-content: center;
       flex-wrap: wrap;
     }
+
     .filters label {
       font-weight: bold;
       margin-right: 0.5rem;
@@ -66,6 +73,8 @@
       grid-template-columns: repeat(5, 1fr);
       gap: 1rem;
       padding: 1rem;
+      max-width: 1200px;
+      margin: 0 auto;
     }
 
     @media (max-width: 768px) {
@@ -103,6 +112,12 @@
       margin-top: 0.5rem;
     }
 
+    .product button:disabled {
+      background-color: #ccc;
+      color: #666;
+      cursor: not-allowed;
+    }
+
     footer {
       background-color: #2e2e2e;
       color: white;
@@ -113,6 +128,7 @@
   </style>
 </head>
 <body>
+
   <header>
     <a href="index.html"><img src="images/logo.jpg" alt="Artifact Armoury Logo" /></a>
     <p>Historically Scanned. Digitally Forged.</p>
@@ -145,72 +161,22 @@
   </section>
 
   <section class="products" id="products">
-    <!-- Example Product -->
-   <section class="products">
-  <!-- Cpt. Greene -->
-  <div class="product" data-army="101st" data-stance="standing">
-    <img src="images/cpt-tom-standing.jpg" alt="Cpt. Greene Standing">
-    <h3>Cpt. Greene (S)</h3>
-    <p>£4.49 – STL File</p>
-    <button onclick="addToCart('Cpt. Greene (S)', 4.49)">Add to Cart</button>
-  </div>
-  <div class="product" data-army="101st" data-stance="kneeling">
-    <img src="images/cpt-tom-kneeling.jpg" alt="Cpt. Greene Kneeling">
-    <h3>Cpt. Greene (K)</h3>
-    <p>£4.49 – STL File</p>
-    <button onclick="addToCart('Cpt. Greene (K)', 4.49)">Add to Cart</button>
-  </div>
+    <!-- STL Cards – Add yours here -->
+    <div class="product" data-army="101st" data-stance="standing">
+      <img src="images/cpt-tom-standing.jpg" alt="Cpt. Greene Standing">
+      <h3>Cpt. Greene (S)</h3>
+      <p>£4.49 – STL File</p>
+      <button onclick="addToCart(this, 'Cpt. Greene (S)', 4.49)">Add to Cart</button>
+    </div>
 
-  <!-- Cpt. White -->
-  <div class="product" data-army="paras" data-stance="standing">
-    <img src="images/cpt-white-standing.jpg" alt="Cpt. White Standing">
-    <h3>Cpt. White (S)</h3>
-    <p>£4.49 – STL File</p>
-    <button onclick="addToCart('Cpt. White (S)', 4.49)">Add to Cart</button>
-  </div>
-  <div class="product" data-army="paras" data-stance="kneeling">
-    <img src="images/cpt-white-kneeling.jpg" alt="Cpt. White Kneeling">
-    <h3>Cpt. White (K)</h3>
-    <p>£4.49 – STL File</p>
-    <button onclick="addToCart('Cpt. White (K)', 4.49)">Add to Cart</button>
-  </div>
-  <div class="product" data-army="paras" data-stance="prone">
-    <img src="images/cpt-white-prone.jpg" alt="Cpt. White Prone">
-    <h3>Cpt. White (P)</h3>
-    <p>£4.49 – STL File</p>
-    <button onclick="addToCart('Cpt. White (P)', 4.49)">Add to Cart</button>
-  </div>
+    <div class="product" data-army="paras" data-stance="prone">
+      <img src="images/cpt-white-prone.jpg" alt="Cpt. White (P)">
+      <h3>Cpt. White (P)</h3>
+      <p>£4.49 – STL File</p>
+      <button onclick="addToCart(this, 'Cpt. White (P)', 4.49)">Add to Cart</button>
+    </div>
 
-  <!-- Sgt. Wells -->
-  <div class="product" data-army="paras" data-stance="standing">
-    <img src="images/sgt-wells-standing.jpg" alt="Sgt. Wells Standing">
-    <h3>Sgt. Wells (S)</h3>
-    <p>£4.49 – STL File</p>
-    <button onclick="addToCart('Sgt. Wells (S)', 4.49)">Add to Cart</button>
-  </div>
-  <div class="product" data-army="paras" data-stance="kneeling">
-    <img src="images/sgt-wells-kneeling.jpg" alt="Sgt. Wells Kneeling">
-    <h3>Sgt. Wells (K)</h3>
-    <p>£4.49 – STL File</p>
-    <button onclick="addToCart('Sgt. Wells (K)', 4.49)">Add to Cart</button>
-  </div>
-
-  <!-- Pvt. Jackson -->
-  <div class="product" data-army="101st" data-stance="standing">
-    <img src="images/pvt-jackson-standing.jpg" alt="Pvt. Jackson Standing">
-    <h3>Pvt. Jackson (S)</h3>
-    <p>£4.49 – STL File</p>
-    <button onclick="addToCart('Pvt. Jackson (S)', 4.49)">Add to Cart</button>
-  </div>
-  <div class="product" data-army="101st" data-stance="kneeling">
-    <img src="images/pvt-jackson-kneeling.jpg" alt="Pvt. Jackson Kneeling">
-    <h3>Pvt. Jackson (K)</h3>
-    <p>£4.49 – STL File</p>
-    <button onclick="addToCart('Pvt. Jackson (K)', 4.49)">Add to Cart</button>
-  </div>
-</section>
-
-    <!-- Add more STL cards here -->
+    <!-- Add more STL entries following this pattern -->
   </section>
 
   <footer>
@@ -221,18 +187,29 @@
   <script>
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-    function addToCart(name, price) {
+    function addToCart(button, name, price) {
       if (cart.some(item => item.name === name)) {
-        alert("This item is already in your cart.");
         return;
       }
       cart.push({ name, price });
       localStorage.setItem("cart", JSON.stringify(cart));
       updateCart();
+      button.disabled = true;
+      button.textContent = "In Cart";
     }
 
     function updateCart() {
       document.getElementById("cart-count").textContent = cart.length;
+
+      // Grey out buttons for items already in cart
+      document.querySelectorAll(".product").forEach(product => {
+        const name = product.querySelector("h3").textContent.trim();
+        const button = product.querySelector("button");
+        if (cart.some(item => item.name === name)) {
+          button.disabled = true;
+          button.textContent = "In Cart";
+        }
+      });
     }
 
     function filterProducts() {
@@ -251,4 +228,5 @@
   </script>
 </body>
 </html>
+
 
