@@ -52,12 +52,18 @@
       font-weight: bold;
       margin-right: 0.5rem;
     }
-    .products {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 1rem;
-      padding: 1rem;
-    }
+    products {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1rem;
+  padding: 1rem;
+}
+
+@media (max-width: 768px) {
+  .products {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
     .product {
       background: white;
       padding: 1rem;
