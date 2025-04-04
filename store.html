@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Artifact Armoury | Historically Accurate STL Files</title>
+  <title>Artifact Armoury | STL Catalogue</title>
   <style>
     body {
       font-family: Georgia, serif;
@@ -13,9 +13,17 @@
     }
     header {
       background-color: #2e2e2e;
-      color: #f4f1ee;
-      padding: 1rem;
       text-align: center;
+      padding: 1rem;
+    }
+    header img {
+      max-height: 70px;
+      margin-bottom: 0.5rem;
+    }
+    header p {
+      color: #f4f1ee;
+      font-size: 1.1rem;
+      margin: 0;
     }
     nav {
       background-color: #bfa76f;
@@ -33,14 +41,14 @@
     .cart-icon {
       position: absolute;
       right: 1rem;
-      top: 0.75rem;
+      top: 0.25rem;
       background: #fff;
       border: 1px solid #2e2e2e;
       padding: 0.5rem 1rem;
       border-radius: 4px;
       cursor: pointer;
-      z-index: 10;
     }
+
     .filters {
       padding: 1rem;
       display: flex;
@@ -52,18 +60,20 @@
       font-weight: bold;
       margin-right: 0.5rem;
     }
-    products {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 1rem;
-  padding: 1rem;
-}
 
-@media (max-width: 768px) {
-  .products {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
+    .products {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 1rem;
+      padding: 1rem;
+    }
+
+    @media (max-width: 768px) {
+      .products {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
     .product {
       background: white;
       padding: 1rem;
@@ -71,16 +81,17 @@
       box-shadow: 0 2px 4px rgba(0,0,0,0.1);
       text-align: center;
     }
+
     .product img {
-      width: 120px;
+      width: 100%;
       height: auto;
-      display: block;
-      margin: 0 auto;
       border-radius: 4px;
     }
+
     .product h3 {
       margin: 0.5rem 0;
     }
+
     .product button {
       padding: 0.5rem 1rem;
       background-color: #bfa76f;
@@ -89,12 +100,9 @@
       border-radius: 4px;
       font-weight: bold;
       cursor: pointer;
-      margin: 0.25rem;
+      margin-top: 0.5rem;
     }
-    .product button:disabled {
-      background-color: #ccc;
-      cursor: default;
-    }
+
     footer {
       background-color: #2e2e2e;
       color: white;
@@ -105,17 +113,14 @@
   </style>
 </head>
 <body>
-
-  <header style="background-color: #2e2e2e; text-align: center; padding: 1rem;">
-  <a href="index.html">
-    <img src="images/logo.jpg" alt="Artifact Armoury Logo" style="max-height: 70px; margin-bottom: 0.5rem;" />
-  </a>
-  <p style="color: #f4f1ee; font-size: 1.1rem; margin: 0;">Historically Scanned. Digitally Forged.</p>
-</header>
+  <header>
+    <a href="index.html"><img src="images/logo.jpg" alt="Artifact Armoury Logo" /></a>
+    <p>Historically Scanned. Digitally Forged.</p>
+  </header>
 
   <nav>
-    <a href="#products">STLs</a>
-    <a href="bundle.html">Build a Bundle</a>
+    <a href="index.html">Home</a>
+    <a href="bundle.html">Squad Builder</a>
     <a href="cart.html" class="cart-icon">🛒 Cart (<span id="cart-count">0</span>)</a>
   </nav>
 
@@ -139,104 +144,45 @@
     </div>
   </section>
 
-  <section id="products" class="products">
-    <!-- Cpt. Greene -->
+  <section class="products" id="products">
+    <!-- Example Product -->
     <div class="product" data-army="101st" data-stance="standing">
-      <img src="images/cpt-tom-standing.jpg" alt="Cpt. Greene Standing">
-      <h3><a href="cpt-tom.html">Cpt. Greene (S)</a></h3>
+      <img src="images/cpt-tom-standing.jpg" alt="Cpt. Greene (S)">
+      <h3>Cpt. Greene (S)</h3>
       <p>£4.49 – STL File</p>
-      <button data-name="Cpt. Greene (S)" onclick="addToCart('Cpt. Greene (S)', 4.49, this)">Add to Cart</button>
-    </div>
-    <div class="product" data-army="101st" data-stance="kneeling">
-      <img src="images/cpt-tom-kneeling.jpg" alt="Cpt. Greene Kneeling">
-      <h3><a href="cpt-tom.html">Cpt. Greene (K)</a></h3>
-      <p>£4.49 – STL File</p>
-      <button data-name="Cpt. Greene (K)" onclick="addToCart('Cpt. Greene (K)', 4.49, this)">Add to Cart</button>
+      <button onclick="addToCart('Cpt. Greene (S)', 4.49)">Add to Cart</button>
     </div>
 
-    <!-- Cpt. White -->
-    <div class="product" data-army="paras" data-stance="standing">
-      <img src="images/cpt-white-standing.jpg" alt="Cpt. White Standing">
-      <h3><a href="cpt-white.html">Cpt. White (S)</a></h3>
-      <p>£4.49 – STL File</p>
-      <button data-name="Cpt. White (S)" onclick="addToCart('Cpt. White (S)', 4.49, this)">Add to Cart</button>
-    </div>
-    <div class="product" data-army="paras" data-stance="kneeling">
-      <img src="images/cpt-white-kneeling.jpg" alt="Cpt. White Kneeling">
-      <h3><a href="cpt-white.html">Cpt. White (K)</a></h3>
-      <p>£4.49 – STL File</p>
-      <button data-name="Cpt. White (K)" onclick="addToCart('Cpt. White (K)', 4.49, this)">Add to Cart</button>
-    </div>
     <div class="product" data-army="paras" data-stance="prone">
-      <img src="images/cpt-white-prone.jpg" alt="Cpt. White Prone">
-      <h3><a href="cpt-white.html">Cpt. White (P)</a></h3>
+      <img src="images/cpt-white-prone.jpg" alt="Cpt. White (P)">
+      <h3>Cpt. White (P)</h3>
       <p>£4.49 – STL File</p>
-      <button data-name="Cpt. White (P)" onclick="addToCart('Cpt. White (P)', 4.49, this)">Add to Cart</button>
+      <button onclick="addToCart('Cpt. White (P)', 4.49)">Add to Cart</button>
     </div>
 
-    <!-- Sgt. Wells -->
-    <div class="product" data-army="paras" data-stance="standing">
-      <img src="images/sgt-wells-standing.jpg" alt="Sgt. Wells Standing">
-      <h3><a href="sgt-wells.html">Sgt. Wells (S)</a></h3>
-      <p>£4.49 – STL File</p>
-      <button data-name="Sgt. Wells (S)" onclick="addToCart('Sgt. Wells (S)', 4.49, this)">Add to Cart</button>
-    </div>
-    <div class="product" data-army="paras" data-stance="kneeling">
-      <img src="images/sgt-wells-kneeling.jpg" alt="Sgt. Wells Kneeling">
-      <h3><a href="sgt-wells.html">Sgt. Wells (K)</a></h3>
-      <p>£4.49 – STL File</p>
-      <button data-name="Sgt. Wells (K)" onclick="addToCart('Sgt. Wells (K)', 4.49, this)">Add to Cart</button>
-    </div>
-
-    <!-- Pvt. Jackson -->
-    <div class="product" data-army="101st" data-stance="standing">
-      <img src="images/pvt-jackson-standing.jpg" alt="Pvt. Jackson Standing">
-      <h3><a href="pvt-jackson.html">Pvt. Jackson (S)</a></h3>
-      <p>£4.49 – STL File</p>
-      <button data-name="Pvt. Jackson (S)" onclick="addToCart('Pvt. Jackson (S)', 4.49, this)">Add to Cart</button>
-    </div>
-    <div class="product" data-army="101st" data-stance="kneeling">
-      <img src="images/pvt-jackson-kneeling.jpg" alt="Pvt. Jackson Kneeling">
-      <h3><a href="pvt-jackson.html">Pvt. Jackson (K)</a></h3>
-      <p>£4.49 – STL File</p>
-      <button data-name="Pvt. Jackson (K)" onclick="addToCart('Pvt. Jackson (K)', 4.49, this)">Add to Cart</button>
-    </div>
+    <!-- Add more STL cards here -->
   </section>
 
   <footer>
+    <img src="images/logo.jpg" alt="Artifact Armoury" style="height: 40px; margin-bottom: 0.5rem;" />
     <p>&copy; 2025 Artifact Armoury. All rights reserved.</p>
   </footer>
 
   <script>
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-    function addToCart(name, price, button = null) {
+    function addToCart(name, price) {
       if (cart.some(item => item.name === name)) {
-        alert("This model is already in your cart.");
+        alert("This item is already in your cart.");
         return;
       }
       cart.push({ name, price });
       localStorage.setItem("cart", JSON.stringify(cart));
       updateCart();
-      if (button) {
-        button.disabled = true;
-        button.textContent = "In Cart";
-        button.style.backgroundColor = "#ccc";
-      }
     }
 
     function updateCart() {
-      const cartCount = document.getElementById("cart-count");
-      cartCount.textContent = cart.length;
-
-      const buttons = document.querySelectorAll("[data-name]");
-      buttons.forEach(button => {
-        const name = button.getAttribute("data-name");
-        const inCart = cart.some(item => item.name === name);
-        button.disabled = inCart;
-        button.textContent = inCart ? "In Cart" : "Add to Cart";
-        button.style.backgroundColor = inCart ? "#ccc" : "#bfa76f";
-      });
+      document.getElementById("cart-count").textContent = cart.length;
     }
 
     function filterProducts() {
@@ -245,14 +191,14 @@
       const products = document.querySelectorAll(".product");
 
       products.forEach(product => {
-        const matchesArmy = (army === "all" || product.dataset.army === army);
-        const matchesStance = (stance === "all" || product.dataset.stance === stance);
-        product.style.display = (matchesArmy && matchesStance) ? "block" : "none";
+        const matchArmy = army === "all" || product.dataset.army === army;
+        const matchStance = stance === "all" || product.dataset.stance === stance;
+        product.style.display = matchArmy && matchStance ? "block" : "none";
       });
     }
 
     window.onload = updateCart;
   </script>
-
 </body>
 </html>
+
