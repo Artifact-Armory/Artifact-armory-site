@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Artifact Armoury | Squad Builder</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Squad Builder | Artifact Armoury</title>
   <style>
     body {
       font-family: Georgia, serif;
@@ -11,189 +11,176 @@
       color: #2e2e2e;
       margin: 0;
     }
+
     header {
       background-color: #2e2e2e;
-      color: #f4f1ee;
+      text-align: center;
       padding: 1rem;
-      text-align: center;
     }
-    .container {
-      max-width: 800px;
-      margin: 0 auto;
-      padding: 2rem;
-    }
-    h1 {
-      text-align: center;
+
+    header img {
+      max-height: 70px;
       margin-bottom: 0.5rem;
     }
-    .intro {
+
+    header p {
+      color: #f4f1ee;
+      font-size: 1.1rem;
+      margin: 0;
+    }
+
+    nav {
+      background-color: #bfa76f;
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      padding: 0.75rem;
+      font-weight: bold;
+      position: relative;
+    }
+
+    nav a {
+      color: #2e2e2e;
+      text-decoration: none;
+    }
+
+    .cart-icon {
+      position: absolute;
+      right: 1rem;
+      top: 0.25rem;
+      background: #fff;
+      border: 1px solid #2e2e2e;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .hero {
+      background-color: #fff8e1;
+      padding: 2rem 1rem;
       text-align: center;
-      margin-bottom: 1rem;
+    }
+
+    .hero h1 {
+      margin-bottom: 0.5rem;
+    }
+
+    .hero p {
       font-size: 1.1rem;
     }
-    .builder-grid {
+
+    .products {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      grid-template-columns: repeat(5, 1fr);
       gap: 1rem;
-      margin: 2rem 0;
-    }
-    .model-box {
-      background: white;
-      border: 2px solid #ccc;
-      border-radius: 8px;
       padding: 1rem;
+    }
+
+    @media (max-width: 768px) {
+      .products {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    .product {
+      background: white;
+      padding: 1rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
       text-align: center;
-      cursor: pointer;
-      transition: border-color 0.3s;
     }
-    .model-box.selected {
-      border-color: #bfa76f;
-      background-color: #fff8e1;
-    }
-    .model-box img {
+
+    .product img {
       width: 100%;
       height: auto;
       border-radius: 4px;
-      margin-bottom: 0.5rem;
     }
-    .total-box {
-      text-align: center;
-      font-size: 1.2rem;
-      margin-bottom: 1rem;
+
+    .product h3 {
+      margin: 0.5rem 0;
     }
-    .discount-msg {
-      color: green;
-      font-weight: bold;
-      margin-top: 0.5rem;
-    }
-    .confirm-btn {
-      display: block;
-      margin: 0 auto;
+
+    .product button {
+      padding: 0.5rem 1rem;
       background-color: #bfa76f;
       color: #2e2e2e;
-      padding: 0.75rem 2rem;
-      font-size: 1.1rem;
       border: none;
-      border-radius: 6px;
+      border-radius: 4px;
       font-weight: bold;
       cursor: pointer;
+      margin-top: 0.5rem;
+    }
+
+    footer {
+      background-color: #2e2e2e;
+      color: white;
+      text-align: center;
+      padding: 1rem;
+      font-size: 0.9rem;
     }
   </style>
 </head>
 <body>
-  <header style="background-color: #2e2e2e; text-align: center; padding: 1rem;">
-  <a href="index.html">
-    <img src="images/logo.jpg" alt="Artifact Armoury Logo" style="max-height: 70px; margin-bottom: 0.5rem;" />
-  </a>
-  <p style="color: #f4f1ee; font-size: 1.1rem; margin: 0;">Build your squad with up to 10 STL files</p>
-</header>
 
-  <section style="text-align: center; background-color: #fff8e1; padding: 2rem 1rem;">
-  <h1 style="margin-bottom: 0.5rem;">🎖️ Squad Builder</h1>
-  <p style="font-size: 1.1rem;">Choose 5 or 10 miniatures. Discounts applied automatically.<br />Your squad, your way.</p>
-</section>
+  <header>
+    <a href="index.html"><img src="images/logo.jpg" alt="Artifact Armoury Logo" /></a>
+    <p>Historically Scanned. Digitally Forged.</p>
+  </header>
 
-  <div class="container">
-    <div class="builder-grid" id="builder-grid">
-      <!-- Sample entries -->
-      <div class="model-box" onclick="toggleSelection(this, 'Cpt. Greene (S)', 4.49)">
-        <img src="images/cpt-tom-standing.jpg" alt="Cpt. Greene Standing">
-        <strong>Cpt. Greene (S)</strong>
-      </div>
-      <div class="model-box" onclick="toggleSelection(this, 'Cpt. Greene (K)', 4.49)">
-        <img src="images/cpt-tom-kneeling.jpg" alt="Cpt. Greene Kneeling">
-        <strong>Cpt. Greene (K)</strong>
-      </div>
-      <div class="model-box" onclick="toggleSelection(this, 'Cpt. White (S)', 4.49)">
-        <img src="images/cpt-white-standing.jpg" alt="Cpt. White Standing">
-        <strong>Cpt. White (S)</strong>
-      </div>
-      <div class="model-box" onclick="toggleSelection(this, 'Cpt. White (K)', 4.49)">
-        <img src="images/cpt-white-kneeling.jpg" alt="Cpt. White Kneeling">
-        <strong>Cpt. White (K)</strong>
-      </div>
-      <div class="model-box" onclick="toggleSelection(this, 'Cpt. White (P)', 4.49)">
-        <img src="images/cpt-white-prone.jpg" alt="Cpt. White Prone">
-        <strong>Cpt. White (P)</strong>
-      </div>
-      <div class="model-box" onclick="toggleSelection(this, 'Sgt. Wells (S)', 4.49)">
-        <img src="images/sgt-wells-standing.jpg" alt="Sgt. Wells Standing">
-        <strong>Sgt. Wells (S)</strong>
-      </div>
-      <div class="model-box" onclick="toggleSelection(this, 'Sgt. Wells (K)', 4.49)">
-        <img src="images/sgt-wells-kneeling.jpg" alt="Sgt. Wells Kneeling">
-        <strong>Sgt. Wells (K)</strong>
-      </div>
-      <div class="model-box" onclick="toggleSelection(this, 'Pvt. Jackson (S)', 4.49)">
-        <img src="images/pvt-jackson-standing.jpg" alt="Pvt. Jackson Standing">
-        <strong>Pvt. Jackson (S)</strong>
-      </div>
-      <div class="model-box" onclick="toggleSelection(this, 'Pvt. Jackson (K)', 4.49)">
-        <img src="images/pvt-jackson-kneeling.jpg" alt="Pvt. Jackson Kneeling">
-        <strong>Pvt. Jackson (K)</strong>
-      </div>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="store.html">Catalogue</a>
+    <a href="cart.html" class="cart-icon">🛒 Cart (<span id="cart-count">0</span>)</a>
+  </nav>
+
+  <section class="hero">
+    <h1>🎖️ Squad Builder</h1>
+    <p>Select up to 5 or 10 STL files to build your squad.<br />
+    Discounts are automatically applied at checkout.</p>
+  </section>
+
+  <section class="products">
+    <!-- Example Products -->
+    <div class="product" data-army="101st" data-stance="standing">
+      <img src="images/cpt-tom-standing.jpg" alt="Cpt. Greene Standing">
+      <h3>Cpt. Greene (S)</h3>
+      <p>£4.49 – STL File</p>
+      <button onclick="addToCart('Cpt. Greene (S)', 4.49)">Add to Squad</button>
     </div>
 
-    <div class="total-box">
-      Total: <span id="total-price">£0.00</span>
-      <div class="discount-msg" id="discount-msg"></div>
+    <div class="product" data-army="paras" data-stance="prone">
+      <img src="images/cpt-white-prone.jpg" alt="Cpt. White Prone">
+      <h3>Cpt. White (P)</h3>
+      <p>£4.49 – STL File</p>
+      <button onclick="addToCart('Cpt. White (P)', 4.49)">Add to Squad</button>
     </div>
 
-    <button class="confirm-btn" onclick="confirmBundle()">Add Squad to Cart</button>
-  </div>
+    <!-- Add more STL items here -->
+  </section>
+
+  <footer>
+    <img src="images/logo.jpg" alt="Artifact Armoury" style="height: 40px; margin-bottom: 0.5rem;" />
+    <p>&copy; 2025 Artifact Armoury. All rights reserved.</p>
+  </footer>
 
   <script>
-    const selectedModels = [];
-    const basePrice = 4.49;
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-    function toggleSelection(element, name, price) {
-      const index = selectedModels.findIndex(m => m.name === name);
-      if (index > -1) {
-        selectedModels.splice(index, 1);
-        element.classList.remove("selected");
-      } else {
-        if (selectedModels.length >= 10) {
-          alert("You can only select up to 10 STL files.");
-          return;
-        }
-        selectedModels.push({ name, price });
-        element.classList.add("selected");
-      }
-      updateTotal();
-    }
-
-    function updateTotal() {
-      const totalRaw = selectedModels.reduce((sum, m) => sum + m.price, 0);
-      let discount = 0;
-
-      if (selectedModels.length >= 10) discount = 0.2;
-      else if (selectedModels.length >= 5) discount = 0.1;
-
-      const discounted = totalRaw * (1 - discount);
-      document.getElementById("total-price").textContent = `£${discounted.toFixed(2)}`;
-
-      const msg = document.getElementById("discount-msg");
-      if (discount === 0.2) msg.textContent = "20% discount applied!";
-      else if (discount === 0.1) msg.textContent = "10% discount applied!";
-      else msg.textContent = "";
-    }
-
-    function confirmBundle() {
-      if (selectedModels.length === 0) {
-        alert("Please select at least one model to continue.");
+    function addToCart(name, price) {
+      if (cart.some(item => item.name === name)) {
+        alert("That STL is already in your squad.");
         return;
       }
-      let cart = JSON.parse(localStorage.getItem("cart")) || [];
-
-      selectedModels.forEach(model => {
-        if (!cart.some(item => item.name === model.name)) {
-          cart.push(model);
-        }
-      });
-
+      cart.push({ name, price });
       localStorage.setItem("cart", JSON.stringify(cart));
-      window.location.href = "cart.html";
+      updateCart();
     }
+
+    function updateCart() {
+      document.getElementById("cart-count").textContent = cart.length;
+    }
+
+    window.onload = updateCart;
   </script>
 </body>
 </html>
